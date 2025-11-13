@@ -2,10 +2,14 @@ package com.nhnacademy.coupon.port.in.policy;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.service.CouponDisCountType;
 import com.nhnacademy.coupon.service.CouponPolicy;
 import com.nhnacademy.coupon.service.CouponPolicyService;
@@ -17,6 +21,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -31,6 +36,8 @@ class CouponPolicyControllerTest {
     private CouponPolicyService service;
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @DisplayName("없으면 빈 리스트가 출력된다.")
@@ -56,6 +63,32 @@ class CouponPolicyControllerTest {
                                 fieldWithPath("[].minOrderPrice").description("최소 주문금액"),
                                 fieldWithPath("[].maxDiscountPrice").description("최대 할인금액")
                                 ))
+                );
+    }
+    @Test
+    @DisplayName("저장이 안되면, 400 반환")
+    void test3() throws Exception {
+        Mockito.doThrow(new CustomException("error.message.fixAmount")).when(service).save(any());
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/policies")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(new PolicyCreateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
+                )
+                .andExpect(status().isBadRequest())
+                .andDo(document("coupon-policys/save/fail",
+                        preprocessRequest(prettyPrint())
+                ));
+    }
+    @Test
+    @DisplayName("저장이 되면, 200대 반환")
+    void test4() throws Exception {
+        Mockito.doNothing().when(service).save(any());
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/policies")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(new PolicyCreateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
+                )
+                .andExpect(status().isOk())
+                .andDo(document("coupon-policys/save/success",
+                        preprocessRequest(prettyPrint()))
                 );
     }
 }

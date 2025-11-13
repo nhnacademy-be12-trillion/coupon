@@ -11,4 +11,10 @@ public enum CouponDisCountType {
             case CouponDiscountTypeColumn.RATE-> CouponDisCountType.RATE;
         };
     }
+    static CouponDiscountTypeColumn getCouponDisCountTypeColumn(CouponDisCountType discountType) {
+        return switch (discountType){
+            case FIXED_AMOUNT -> CouponDiscountTypeColumn.FIX_AMOUNT;
+            case RATE -> CouponDiscountTypeColumn.RATE;
+        };
+    }
 }

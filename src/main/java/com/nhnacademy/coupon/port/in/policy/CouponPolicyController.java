@@ -6,6 +6,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,5 +19,9 @@ public class CouponPolicyController {
     @GetMapping()
     public List<CouponPolicy> getCouponPolicyResponse(Pageable pageable){
         return service.getCouponPolicys(pageable);
+    }
+    @PostMapping
+    public void createCouponPolicy(@RequestBody PolicyCreateRequest request) {
+        service.save(request.createCouponPolicy());
     }
 }
