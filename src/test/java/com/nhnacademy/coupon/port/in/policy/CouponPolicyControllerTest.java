@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.nhnacademy.coupon.service.CouponDisCountType;
 import com.nhnacademy.coupon.service.CouponPolicy;
-import com.nhnacademy.coupon.service.CouponService;
+import com.nhnacademy.coupon.service.CouponPolicyService;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,11 +24,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @ExtendWith(RestDocumentationExtension.class)
-@WebMvcTest(controllers = CouponController.class)
+@WebMvcTest(controllers = CouponPolicyController.class)
 @AutoConfigureRestDocs
-class CouponControllerTest {
+class CouponPolicyControllerTest {
     @MockitoBean
-    private CouponService service;
+    private CouponPolicyService service;
     @Autowired
     private MockMvc mockMvc;
 
