@@ -1,4 +1,4 @@
-package com.nhnacademy.coupon.port.in;
+package com.nhnacademy.coupon.port.in.policy;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;

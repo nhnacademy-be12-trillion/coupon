@@ -1,4 +1,4 @@
-package com.nhnacademy.coupon.port.in;
+package com.nhnacademy.coupon.port.in.policy;
 
 import com.nhnacademy.coupon.service.CouponPolicy;
 import com.nhnacademy.coupon.service.CouponService;
