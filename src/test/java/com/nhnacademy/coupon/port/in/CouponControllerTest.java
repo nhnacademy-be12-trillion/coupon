@@ -35,7 +35,7 @@ class CouponControllerTest {
     @Test
     @DisplayName("없으면 빈 리스트가 출력된다.")
     void test1() throws Exception {
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/coupon-policys"))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/policies"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
     }
@@ -45,7 +45,7 @@ class CouponControllerTest {
         Mockito.when(service.getCouponPolicys(any())).thenReturn(
                 List.of(new CouponPolicy(1L,1d,100L,100L, CouponDisCountType.FIXED_AMOUNT))
         );
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/coupon-policys"))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/policies"))
                 .andExpect(status().isOk())
                 .andDo(document("coupon-policys/not-empty"
                                 , responseFields(
