@@ -3,6 +3,8 @@ package com.nhnacademy.coupon.port.out.coupon;
 import com.nhnacademy.coupon.domain.Book;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "coupon")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Inheritance(strategy = InheritanceType.JOINED)
 public class CouponJpaEntity {
     @Id
     private Long id;
