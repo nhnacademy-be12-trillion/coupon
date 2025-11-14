@@ -2,6 +2,8 @@ package com.nhnacademy.coupon.port.out.coupon;
 
 import com.nhnacademy.coupon.domain.Book;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -18,13 +20,18 @@ import lombok.NoArgsConstructor;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class CouponJpaEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Long policyId;
     private Long quantity;
     private LocalDateTime issueStartDate;
     private LocalDateTime issueEndDate;
-    boolean isAvailable(LocalDateTime now, Book book) {
+
+    public CouponKindColumn getCouponType(){
+        return CouponKindColumn.DEFAULT;
+    }
+    public boolean isAvailable(LocalDateTime now, Book book) {
         return issueStartDate.isAfter(now) && now.isBefore(issueEndDate)&&quantity>0;
     }
 

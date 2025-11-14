@@ -9,19 +9,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "category_coupon")
+@Table(name = "name_coupon")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class CategoryCouponJpaEntity extends CouponJpaEntity {
-    private String categoryName;
+public class NameCouponJpaEntity extends CouponJpaEntity {
+    String bookName;
 
-    @Override
-    public CouponKindColumn getCouponType() {
-        return CouponKindColumn.CATEGORY;
+    public CouponKindColumn getCouponType(){
+        return CouponKindColumn.NAME;
     }
-
-    @Override
     public boolean isAvailable(LocalDateTime now, Book book) {
-        return super.isAvailable(now,book)&&categoryName.equals(book.category());
+        return super.isAvailable(now, book)&&bookName.equals(book.name());
     }
 }
