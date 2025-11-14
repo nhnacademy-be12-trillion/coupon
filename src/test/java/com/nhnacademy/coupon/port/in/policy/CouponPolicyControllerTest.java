@@ -117,4 +117,15 @@ class CouponPolicyControllerTest {
                         preprocessRequest(prettyPrint()))
                 );
     }
+    @Test
+    @DisplayName("삭제- 돌아간다.")
+    void test7() throws Exception {
+        Mockito.doNothing().when(service).delete(any());
+        mockMvc.perform(RestDocumentationRequestBuilders.delete("/policies/1")
+                )
+                .andExpect(status().isOk())
+                .andDo(document("coupon-policys/delete/success",
+                        preprocessRequest(prettyPrint()))
+                );
+    }
 }

@@ -29,4 +29,8 @@ public class CouponPolicyService {
             throw new CustomException("error.message.couponPolicy.notFound",new Object[]{couponPolicy.id()});
         couponPolicyJpaRepository.save(couponPolicy.createCouponPolicyJpaEntity());
     }
+    @Transactional
+    public void delete(Long policyId) {
+        couponPolicyJpaRepository.deleteById(policyId);
+    }
 }

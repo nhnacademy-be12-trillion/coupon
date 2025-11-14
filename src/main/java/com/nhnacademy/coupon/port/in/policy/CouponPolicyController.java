@@ -5,6 +5,7 @@ import com.nhnacademy.coupon.service.CouponPolicyService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,5 +30,9 @@ public class CouponPolicyController {
     @PutMapping("{policyId}")
     public void updateCouponPolicy(@PathVariable Long policyId,@RequestBody PolicyUpdateRequest request) {
         service.update(request.createCouponPolicy(policyId));
+    }
+    @DeleteMapping("{policyId}")
+    public void deleteCouponPolicy(@PathVariable Long policyId) {
+        service.delete(policyId);
     }
 }
