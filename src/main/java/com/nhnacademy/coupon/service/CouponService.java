@@ -29,6 +29,6 @@ public class CouponService {
     public void save(Coupon coupon) {
         if(!couponPolicyJpaRepository.existsById(coupon.getPolicyId()))
             throw new CustomException("error.message.notFoundCouponPolicy");
-
+        makerComposite.save(coupon);
     }
 }

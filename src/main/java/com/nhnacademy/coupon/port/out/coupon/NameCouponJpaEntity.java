@@ -1,6 +1,7 @@
 package com.nhnacademy.coupon.port.out.coupon;
 
 import com.nhnacademy.coupon.domain.Book;
+import com.nhnacademy.coupon.service.coupon.NameCoupon;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -14,7 +15,10 @@ import lombok.NoArgsConstructor;
 @Getter
 public class NameCouponJpaEntity extends CouponJpaEntity {
     String bookName;
-
+    public NameCouponJpaEntity(NameCoupon coupon) {
+        super(coupon);
+        this.bookName = coupon.getBookName();
+    }
     public CouponKindColumn getCouponType(){
         return CouponKindColumn.NAME;
     }
