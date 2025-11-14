@@ -62,4 +62,18 @@ class CouponControllerTest {
         mockMvc.perform(RestDocumentationRequestBuilders.post("/coupons"))
                 .andExpect(status().isBadRequest());
     }
+    @Test
+    @DisplayName("업데이트에서 문제 생기면, 400 반환")
+    void test4() throws Exception {
+        Mockito.doThrow(new CustomException("qwe")).when(couponService).update(any());
+        mockMvc.perform(RestDocumentationRequestBuilders.put("/coupons/1"))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    @DisplayName("업데이트 되면, 200 반환")
+    void test5() throws Exception {
+        Mockito.doNothing().when(couponService).update(any());
+        mockMvc.perform(RestDocumentationRequestBuilders.put("/coupons/1"))
+                .andExpect(status().isBadRequest());
+    }
 }
