@@ -13,7 +13,7 @@ public class Coupon {
     private Long quantity;
     private LocalDateTime issueStartDate;
     private LocalDateTime issueEndDate;
-    CouponType getType(){
+    public CouponType getType(){
         return CouponType.DEFAULT;
     }
 }
