@@ -53,4 +53,4 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script_stop: true
-          script: "pwd && ls &&sh ./coupon/coupon_dev_run.sh"
+          script: "ls /coupon &&sh coupon/coupon_dev_run.sh"
