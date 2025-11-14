@@ -11,6 +11,7 @@ public class CategoryCoupon extends Coupon{
         super(id, name, policyId, quantity, issueStartDate, issueEndDate);
         this.categoryName = categoryName;
     }
+    @Override
     public CouponType getType(){
         return CouponType.CATEGORY;
     }

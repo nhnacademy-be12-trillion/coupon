@@ -11,6 +11,7 @@ public class NameCoupon extends Coupon{
         super(id, name, policyId, quantity, issueStartDate, issueEndDate);
         this.bookName = bookName;
     }
+    @Override
     public CouponType getType(){
         return CouponType.NAME;
     }

@@ -37,16 +37,7 @@ class CouponTest {
 
     @Test
     @DisplayName("쿠폰퀄리티가 null이면 활성화된다.")
-    void actviceTest(){
-        LocalDateTime start = LocalDateTime.now();
-        LocalDateTime end= start.plusSeconds(1);
-        boolean except = true;
-        Coupon coupon = new Coupon(null, "qwe", 1L, null, start, end);
-        Assertions.assertThat(coupon.isActive()).isEqualTo(except);
-    }
-    @Test
-    @DisplayName("쿠폰퀄리티가 null이면 활성화된다.")
-    void actviceTest2(){
+    void activeTest(){
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end= start.plusSeconds(1);
         boolean except = true;
@@ -56,7 +47,7 @@ class CouponTest {
     @ParameterizedTest
     @ValueSource(longs = {1,Integer.MAX_VALUE,Long.MAX_VALUE})
     @DisplayName("쿠폰퀄리티가 양수면 활성화가 된다.")
-    void actviceTest4(long value){
+    void activeTest4(long value){
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end= start.plusSeconds(1);
         boolean except = true;
@@ -68,7 +59,7 @@ class CouponTest {
     @ParameterizedTest
     @ValueSource(longs = {-1,0})
     @DisplayName("쿠폰퀄리티가 양수가 아니면 활성화가 안된다.")
-    void actviceTest1(long value){
+    void activeTest1(long value){
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end= start.plusSeconds(1);
         boolean except = false;

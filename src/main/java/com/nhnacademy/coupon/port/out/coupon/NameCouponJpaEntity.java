@@ -19,9 +19,11 @@ public class NameCouponJpaEntity extends CouponJpaEntity {
         super(coupon);
         this.bookName = coupon.getBookName();
     }
+    @Override
     public CouponKindColumn getCouponType(){
         return CouponKindColumn.NAME;
     }
+    @Override
     public boolean isAvailable(LocalDateTime now, Book book) {
         return super.isAvailable(now, book)&&bookName.equals(book.name());
     }
