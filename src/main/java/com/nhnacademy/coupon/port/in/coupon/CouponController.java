@@ -1,6 +1,7 @@
 package com.nhnacademy.coupon.port.in.coupon;
 
 import com.nhnacademy.coupon.domain.coupon.Coupon;
+import com.nhnacademy.coupon.port.in.coupon.maker.RequestMakerComposite;
 import com.nhnacademy.coupon.service.CouponService;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/coupons")
 public class CouponController {
     private final CouponService couponService;
+    private final RequestMakerComposite requestMakerComposite;
 
     @GetMapping("")
     public Collection<Coupon> getCouponResponses(Pageable pageable){
@@ -23,7 +25,7 @@ public class CouponController {
     }
 
     @PostMapping
-    public void createCoupon(@RequestBody CouponCreateRequest couponCreateRequest) {
-        couponService.save(couponCreateRequest.create());
+    public void createCoupon(@RequestBody CouponRequestImpl couponRequestImpl) {
+        couponService.save(requestMakerComposite.make(null, couponRequestImpl));
     }
 }

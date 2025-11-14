@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.error.CustomException;
+import com.nhnacademy.coupon.port.in.coupon.maker.RequestMakerComposite;
 import com.nhnacademy.coupon.service.CouponService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +28,8 @@ class CouponControllerTest {
     private MockMvc mockMvc;
     @MockitoBean
     private CouponService couponService;
+    @MockitoBean
+    private RequestMakerComposite requestMakerComposite;
 
     @Test
     @DisplayName("없으면 빈리스트를 반환한다.")
