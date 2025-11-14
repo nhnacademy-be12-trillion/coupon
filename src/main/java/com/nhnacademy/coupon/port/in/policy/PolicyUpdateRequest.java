@@ -1,7 +1,7 @@
 package com.nhnacademy.coupon.port.in.policy;
 
-import com.nhnacademy.coupon.service.CouponDisCountType;
-import com.nhnacademy.coupon.service.CouponPolicy;
+import com.nhnacademy.coupon.service.policy.CouponDisCountType;
+import com.nhnacademy.coupon.service.policy.CouponPolicy;
 
 record PolicyUpdateRequest(Double discountValue, Long minOrderPrice, Long maxDiscountPrice, CouponDisCountType couponDiscountType) {
      CouponPolicy createCouponPolicy(Long policyId) {

@@ -1,8 +1,10 @@
-package com.nhnacademy.coupon.service.maker;
+package com.nhnacademy.coupon.service.maker.coupon;
 
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
 import com.nhnacademy.coupon.port.out.coupon.CouponKindColumn;
 import com.nhnacademy.coupon.port.out.coupon.NameCouponJpaEntity;
+import com.nhnacademy.coupon.service.coupon.Coupon;
+import com.nhnacademy.coupon.service.coupon.NameCoupon;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,9 +1,10 @@
-package com.nhnacademy.coupon.service.maker;
+package com.nhnacademy.coupon.service.maker.coupon;
 
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
+import com.nhnacademy.coupon.service.coupon.Coupon;
 
 
-interface CouponMaker {
+public interface CouponMaker {
     boolean match(CouponJpaEntity couponJpaEntity);
     Coupon make(CouponJpaEntity couponJpaEntity);
 }

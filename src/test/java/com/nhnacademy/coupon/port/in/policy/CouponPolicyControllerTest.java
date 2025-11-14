@@ -10,9 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.coupon.error.CustomException;
-import com.nhnacademy.coupon.service.CouponDisCountType;
-import com.nhnacademy.coupon.service.CouponPolicy;
-import com.nhnacademy.coupon.service.CouponPolicyService;
+import com.nhnacademy.coupon.service.policy.CouponDisCountType;
+import com.nhnacademy.coupon.service.policy.CouponPolicy;
+import com.nhnacademy.coupon.service.policy.CouponPolicyService;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

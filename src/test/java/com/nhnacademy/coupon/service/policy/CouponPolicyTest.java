@@ -1,4 +1,4 @@
-package com.nhnacademy.coupon.service;
+package com.nhnacademy.coupon.service.policy;
 
 
 import com.nhnacademy.coupon.error.CustomException;

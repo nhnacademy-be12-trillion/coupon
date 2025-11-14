@@ -4,7 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nhnacademy.coupon.service.CouponService;
-import com.nhnacademy.coupon.service.maker.Coupon;
+import com.nhnacademy.coupon.service.coupon.Coupon;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

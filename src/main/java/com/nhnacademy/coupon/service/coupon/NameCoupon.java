@@ -1,4 +1,4 @@
-package com.nhnacademy.coupon.service.maker;
+package com.nhnacademy.coupon.service.coupon;
 
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -10,5 +10,8 @@ public class NameCoupon extends Coupon{
                       LocalDateTime issueEndDate,String bookName) {
         super(id, name, policyId, quantity, issueStartDate, issueEndDate);
         this.bookName = bookName;
+    }
+    CouponType getType(){
+        return CouponType.NAME;
     }
 }

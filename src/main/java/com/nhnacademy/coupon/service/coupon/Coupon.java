@@ -1,4 +1,4 @@
-package com.nhnacademy.coupon.service.maker;
+package com.nhnacademy.coupon.service.coupon;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -13,4 +13,7 @@ public class Coupon {
     private Long quantity;
     private LocalDateTime issueStartDate;
     private LocalDateTime issueEndDate;
+    CouponType getType(){
+        return CouponType.DEFAULT;
+    }
 }
