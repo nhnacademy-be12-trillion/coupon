@@ -91,4 +91,30 @@ class CouponPolicyControllerTest {
                         preprocessRequest(prettyPrint()))
                 );
     }
+    @Test
+    @DisplayName("예외 나오면 400 반환")
+    void test6() throws Exception {
+        Mockito.doThrow(new CustomException("qwe")).when(service).update(any());
+        mockMvc.perform(RestDocumentationRequestBuilders.put("/policies/1")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(new PolicyUpdateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
+                )
+                .andExpect(status().isBadRequest())
+                .andDo(document("coupon-policys/update/fail",
+                        preprocessRequest(prettyPrint()))
+                );
+    }
+    @Test
+    @DisplayName("예외 안나오면 200 반환")
+    void test5() throws Exception {
+        Mockito.doNothing().when(service).update(any());
+        mockMvc.perform(RestDocumentationRequestBuilders.put("/policies/1")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(new PolicyUpdateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
+                )
+                .andExpect(status().isOk())
+                .andDo(document("coupon-policys/update/success",
+                        preprocessRequest(prettyPrint()))
+                );
+    }
 }

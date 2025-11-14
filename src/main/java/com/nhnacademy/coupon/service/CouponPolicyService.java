@@ -1,5 +1,6 @@
 package com.nhnacademy.coupon.service;
 
+import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.port.out.CouponPolicyJpaRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,12 @@ public class CouponPolicyService {
     }
     @Transactional
     public void save(CouponPolicy couponPolicy) {
+        couponPolicyJpaRepository.save(couponPolicy.createCouponPolicyJpaEntity());
+    }
+    @Transactional
+    public void update(CouponPolicy couponPolicy) {
+        if(!couponPolicyJpaRepository.existsById(couponPolicy.id()))
+            throw new CustomException("error.message.couponPolicy.notFound",new Object[]{couponPolicy.id()});
         couponPolicyJpaRepository.save(couponPolicy.createCouponPolicyJpaEntity());
     }
 }
