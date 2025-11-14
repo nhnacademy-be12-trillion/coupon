@@ -1,10 +1,10 @@
 package com.nhnacademy.coupon.service.maker.coupon;
 
+import com.nhnacademy.coupon.domain.coupon.CategoryCoupon;
+import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.port.out.coupon.CategoryCouponJpaEntity;
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
 import com.nhnacademy.coupon.port.out.coupon.CouponKindColumn;
-import com.nhnacademy.coupon.service.coupon.CategoryCoupon;
-import com.nhnacademy.coupon.service.coupon.Coupon;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,6 +1,8 @@
 package com.nhnacademy.coupon.service.policy;
 
 
+import com.nhnacademy.coupon.domain.policy.CouponDisCountType;
+import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.error.CustomException;
 import java.util.Arrays;
 import org.assertj.core.api.Assertions;

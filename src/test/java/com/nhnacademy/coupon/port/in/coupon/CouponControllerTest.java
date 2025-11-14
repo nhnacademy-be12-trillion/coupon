@@ -3,9 +3,9 @@ package com.nhnacademy.coupon.port.in.coupon;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.service.CouponService;
-import com.nhnacademy.coupon.service.coupon.Coupon;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

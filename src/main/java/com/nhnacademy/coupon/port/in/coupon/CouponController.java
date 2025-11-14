@@ -1,7 +1,7 @@
 package com.nhnacademy.coupon.port.in.coupon;
 
+import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.service.CouponService;
-import com.nhnacademy.coupon.service.coupon.Coupon;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

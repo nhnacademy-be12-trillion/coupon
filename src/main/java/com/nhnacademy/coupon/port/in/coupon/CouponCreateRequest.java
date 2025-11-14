@@ -1,10 +1,10 @@
 package com.nhnacademy.coupon.port.in.coupon;
 
+import com.nhnacademy.coupon.domain.coupon.CategoryCoupon;
+import com.nhnacademy.coupon.domain.coupon.Coupon;
+import com.nhnacademy.coupon.domain.coupon.CouponType;
+import com.nhnacademy.coupon.domain.coupon.NameCoupon;
 import com.nhnacademy.coupon.error.CustomException;
-import com.nhnacademy.coupon.service.coupon.CategoryCoupon;
-import com.nhnacademy.coupon.service.coupon.Coupon;
-import com.nhnacademy.coupon.service.coupon.CouponType;
-import com.nhnacademy.coupon.service.coupon.NameCoupon;
 import java.time.LocalDateTime;
 
 record CouponCreateRequest(String name, Long policyId, Long quantity, LocalDateTime issueStartDate, LocalDateTime issueEndDate,

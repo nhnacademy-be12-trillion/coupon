@@ -1,9 +1,9 @@
 package com.nhnacademy.coupon.service;
 
+import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.port.out.CouponPolicyJpaRepository;
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaRepository;
-import com.nhnacademy.coupon.service.coupon.Coupon;
 import com.nhnacademy.coupon.service.maker.MakerComposite;
 import jakarta.transaction.Transactional;
 import java.util.Collection;

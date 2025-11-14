@@ -1,4 +1,4 @@
-package com.nhnacademy.coupon.service.coupon;
+package com.nhnacademy.coupon.domain.coupon;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;

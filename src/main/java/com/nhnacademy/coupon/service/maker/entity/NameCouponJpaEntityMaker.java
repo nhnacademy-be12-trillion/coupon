@@ -1,10 +1,10 @@
 package com.nhnacademy.coupon.service.maker.entity;
 
+import com.nhnacademy.coupon.domain.coupon.Coupon;
+import com.nhnacademy.coupon.domain.coupon.CouponType;
+import com.nhnacademy.coupon.domain.coupon.NameCoupon;
 import com.nhnacademy.coupon.port.out.coupon.NameCouponJpaEntity;
 import com.nhnacademy.coupon.port.out.coupon.NameCouponJpaRepository;
-import com.nhnacademy.coupon.service.coupon.Coupon;
-import com.nhnacademy.coupon.service.coupon.CouponType;
-import com.nhnacademy.coupon.service.coupon.NameCoupon;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

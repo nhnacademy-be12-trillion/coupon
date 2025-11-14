@@ -1,8 +1,8 @@
 package com.nhnacademy.coupon.service.maker;
 
+import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
-import com.nhnacademy.coupon.service.coupon.Coupon;
 import com.nhnacademy.coupon.service.maker.coupon.CouponMaker;
 import com.nhnacademy.coupon.service.maker.entity.CouponJpaEntityMaker;
 import java.util.List;

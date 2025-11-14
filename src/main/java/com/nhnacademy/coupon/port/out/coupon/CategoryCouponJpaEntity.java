@@ -1,7 +1,7 @@
 package com.nhnacademy.coupon.port.out.coupon;
 
 import com.nhnacademy.coupon.domain.Book;
-import com.nhnacademy.coupon.service.coupon.CategoryCoupon;
+import com.nhnacademy.coupon.domain.coupon.CategoryCoupon;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;

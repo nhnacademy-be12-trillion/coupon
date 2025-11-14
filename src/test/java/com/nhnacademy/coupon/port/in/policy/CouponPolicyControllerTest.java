@@ -9,9 +9,9 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.coupon.domain.policy.CouponDisCountType;
+import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.error.CustomException;
-import com.nhnacademy.coupon.service.policy.CouponDisCountType;
-import com.nhnacademy.coupon.service.policy.CouponPolicy;
 import com.nhnacademy.coupon.service.policy.CouponPolicyService;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

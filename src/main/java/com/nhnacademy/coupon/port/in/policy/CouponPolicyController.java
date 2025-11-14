@@ -1,6 +1,6 @@
 package com.nhnacademy.coupon.port.in.policy;
 
-import com.nhnacademy.coupon.service.policy.CouponPolicy;
+import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.service.policy.CouponPolicyService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

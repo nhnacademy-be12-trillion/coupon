@@ -1,7 +1,6 @@
-package com.nhnacademy.coupon.service.policy;
+package com.nhnacademy.coupon.domain.policy;
 
 import com.nhnacademy.coupon.error.CustomException;
-import com.nhnacademy.coupon.port.out.CouponPolicyJpaEntity;
 
 public record CouponPolicy(Long id, Double discountValue, Long minOrderPrice, Long maxDiscountPrice, CouponDisCountType couponDiscountType) {
     public CouponPolicy{
@@ -21,14 +20,5 @@ public record CouponPolicy(Long id, Double discountValue, Long minOrderPrice, Lo
         && discountValue>100){
             throw new CustomException("error.message.rate",new  Object[]{String.valueOf(discountValue),String.valueOf(discountValue)});
         }
-    }
-
-
-
-    static CouponPolicy create(CouponPolicyJpaEntity entity) {
-        return new CouponPolicy(entity.getId(), entity.getDiscountValue(), entity.getMinOrderPrice(), entity.getMaxDiscountPrice(),CouponDisCountType.getCouponDisCountType(entity.getDiscountType()));
-    }
-    CouponPolicyJpaEntity createCouponPolicyJpaEntity() {
-        return new CouponPolicyJpaEntity(discountValue,minOrderPrice,maxDiscountPrice,CouponDisCountType.getCouponDisCountTypeColumn(couponDiscountType));
     }
 }

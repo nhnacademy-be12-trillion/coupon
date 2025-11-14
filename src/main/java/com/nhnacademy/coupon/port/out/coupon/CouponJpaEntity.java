@@ -1,7 +1,7 @@
 package com.nhnacademy.coupon.port.out.coupon;
 
 import com.nhnacademy.coupon.domain.Book;
-import com.nhnacademy.coupon.service.coupon.Coupon;
+import com.nhnacademy.coupon.domain.coupon.Coupon;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
