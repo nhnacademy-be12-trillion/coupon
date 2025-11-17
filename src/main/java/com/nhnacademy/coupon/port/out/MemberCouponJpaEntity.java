@@ -26,4 +26,9 @@ public class MemberCouponJpaEntity {
     private boolean use;
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
+
+    public MemberCouponJpaEntity(Long memberId, Long couponId) {
+        this.memberId = memberId;
+        this.couponId = couponId;
+    }
 }

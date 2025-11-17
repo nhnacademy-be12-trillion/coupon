@@ -3,6 +3,7 @@ package com.nhnacademy.coupon.port.in.membercoupon;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.service.MemberCoupon;
 import com.nhnacademy.coupon.service.MemberCouponService;
 import java.time.LocalDateTime;
@@ -41,6 +42,20 @@ class MemberCouponControllerTest {
         Mockito.when(service.findAll(any(),any())).thenReturn(List.of(
                 new MemberCoupon(1L,1L,1L,false, LocalDateTime.now())
         ));
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/members/{memberId}/coupons",1L))
+                .andExpect(status().isOk());
+    }
+    @Test
+    @DisplayName("저장 안되면 400 반환.")
+    void saveAll() throws Exception {
+        Mockito.doThrow(new CustomException("qwe")).when(service).save(any());
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/members/{memberId}/coupons",1L))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    @DisplayName("저장되면 200 반환.")
+    void saveAll1() throws Exception {
+        Mockito.doNothing().when(service).save(any());
         mockMvc.perform(RestDocumentationRequestBuilders.get("/members/{memberId}/coupons",1L))
                 .andExpect(status().isOk());
     }

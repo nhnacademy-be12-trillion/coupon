@@ -12,4 +12,9 @@ public class MemberCoupon {
     private Long couponId;
     private boolean use;
     private LocalDateTime lastModifiedDate;
+
+    public MemberCoupon(Long memberId, Long couponId) {
+        this.memberId = memberId;
+        this.couponId = couponId;
+    }
 }
