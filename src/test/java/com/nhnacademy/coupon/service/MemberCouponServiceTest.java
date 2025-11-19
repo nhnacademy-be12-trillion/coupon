@@ -59,12 +59,6 @@ class MemberCouponServiceTest {
                 testMemberId,
                 testCouponId
         );
-        // findAll 호출 시 반환될 Entity 초기화
-        MemberCouponJpaEntity entityForFindAll = new MemberCouponJpaEntity(
-                1L, testMemberId, testCouponId, false, LocalDateTime.now()
-        );
-        // ID 필드는 생성자나 Builder를 통해 설정되어야 함 (예시에서는 임시로 ID 세팅)
-        // entityForFindAll.setId(1L);
     }
 
     // --- findAll 테스트 ---
