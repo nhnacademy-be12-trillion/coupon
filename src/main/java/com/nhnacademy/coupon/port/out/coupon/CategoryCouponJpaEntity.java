@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "category_coupon")
+@Table(name = "CategoryCoupon")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class CategoryCouponJpaEntity extends CouponJpaEntity {
