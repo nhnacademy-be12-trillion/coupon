@@ -60,4 +60,10 @@ public class CouponService {
         if(couponJpaEntity.getQuantity()-usingCount<0||!couponJpaEntity.isAvailable(LocalDateTime.now(), book))
             throw new CustomException("error.message.notUseMemberCoupon");
     }
+    @Transactional
+    public void rollbackCoupon(Long couponId, Long memberId) {
+        memberCouponJpaRepository.findByCouponIdAndMemberId(couponId, memberId)
+                .orElseThrow(() -> new CustomException("error.message.notFoundMemberCouponId", new Object[]{couponId, memberId}))
+                .rollback();
+    }
 }

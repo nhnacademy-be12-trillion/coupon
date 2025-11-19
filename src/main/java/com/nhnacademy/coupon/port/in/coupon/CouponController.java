@@ -7,6 +7,7 @@ import com.nhnacademy.coupon.service.CouponService;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,5 +40,8 @@ public class CouponController {
     public void issueCoupon(@PathVariable Long couponId, Long memberId, Book book) {
         couponService.useCoupon(couponId,memberId,book);
     }
-
+    @DeleteMapping("/{couponId}/use")
+    public void rollbackCoupon(@PathVariable Long couponId, Long memberId) {
+        couponService.rollbackCoupon(couponId,memberId);
+    }
 }

@@ -35,4 +35,8 @@ public class MemberCouponJpaEntity {
     public void useCoupon() {
         use=true;
     }
+
+    public void rollback() {
+        use=false;
+    }
 }
