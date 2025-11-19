@@ -31,4 +31,8 @@ public class MemberCouponJpaEntity {
         this.memberId = memberId;
         this.couponId = couponId;
     }
+
+    public void useCoupon() {
+        use=true;
+    }
 }

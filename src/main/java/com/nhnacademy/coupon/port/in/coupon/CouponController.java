@@ -1,5 +1,6 @@
 package com.nhnacademy.coupon.port.in.coupon;
 
+import com.nhnacademy.coupon.domain.Book;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.port.in.coupon.maker.RequestMakerComposite;
 import com.nhnacademy.coupon.service.CouponService;
@@ -33,6 +34,10 @@ public class CouponController {
     @PutMapping("{couponId}")
     public void updateCoupon(@PathVariable Long couponId, @RequestBody CouponRequestImpl couponRequestImpl) {
         couponService.update(requestMakerComposite.make(couponId, couponRequestImpl));
+    }
+    @PostMapping("/{couponId}/use")
+    public void issueCoupon(@PathVariable Long couponId, Long memberId, Book book) {
+        couponService.useCoupon(couponId,memberId,book);
     }
 
 }
