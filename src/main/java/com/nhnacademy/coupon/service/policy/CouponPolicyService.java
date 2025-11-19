@@ -37,20 +37,20 @@ public class CouponPolicyService {
     public void delete(Long policyId) {
         couponPolicyJpaRepository.deleteById(policyId);
     }
-    CouponPolicy create(CouponPolicyJpaEntity entity) {
+    private CouponPolicy create(CouponPolicyJpaEntity entity) {
         return new CouponPolicy(entity.getId(), entity.getDiscountValue(), entity.getMinOrderPrice(), entity.getMaxDiscountPrice(),
                 getCouponDisCountType(entity.getDiscountType()));
     }
-    CouponPolicyJpaEntity createCouponPolicyJpaEntity(CouponPolicy couponPolicy) {
+    private CouponPolicyJpaEntity createCouponPolicyJpaEntity(CouponPolicy couponPolicy) {
         return new CouponPolicyJpaEntity(couponPolicy.discountValue(),couponPolicy.minOrderPrice(),couponPolicy.maxDiscountPrice(),getCouponDisCountTypeColumn(couponPolicy.couponDiscountType()));
     }
-    CouponDisCountType getCouponDisCountType(CouponDiscountTypeColumn column) {
+    private CouponDisCountType getCouponDisCountType(CouponDiscountTypeColumn column) {
         return switch(column) {
             case CouponDiscountTypeColumn.FIX_AMOUNT-> CouponDisCountType.FIXED_AMOUNT;
             case CouponDiscountTypeColumn.RATE-> CouponDisCountType.RATE;
         };
     }
-    CouponDiscountTypeColumn getCouponDisCountTypeColumn(CouponDisCountType discountType) {
+   private CouponDiscountTypeColumn getCouponDisCountTypeColumn(CouponDisCountType discountType) {
         return switch (discountType){
             case FIXED_AMOUNT -> CouponDiscountTypeColumn.FIX_AMOUNT;
             case RATE -> CouponDiscountTypeColumn.RATE;

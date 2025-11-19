@@ -1,0 +1,8 @@
+package com.nhnacademy.coupon.port.in.coupon;
+
+import com.nhnacademy.coupon.domain.coupon.CouponType;
+import java.time.LocalDateTime;
+
+public record TestCouponRequestImpl(String name, Long policyId, Long quantity, LocalDateTime issueStartDate, LocalDateTime issueEndDate,
+                                    CouponType type, String bookName, String categoryName) implements CouponRequest {
+}
