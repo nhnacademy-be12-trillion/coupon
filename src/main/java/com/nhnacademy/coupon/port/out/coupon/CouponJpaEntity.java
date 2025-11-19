@@ -42,7 +42,7 @@ public class CouponJpaEntity {
         return CouponKindColumn.DEFAULT;
     }
     public boolean isAvailable(LocalDateTime now, Book book) {
-        return issueStartDate.isAfter(now) && now.isBefore(issueEndDate);
+        return issueStartDate.isBefore(now) && now.isBefore(issueEndDate);
     }
 
 }
