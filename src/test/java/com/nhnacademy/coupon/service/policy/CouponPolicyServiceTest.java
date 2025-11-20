@@ -8,6 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.nhnacademy.coupon.domain.policy.AllPricePolicy;
 import com.nhnacademy.coupon.domain.policy.CouponDisCountType;
 import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.error.CustomException;
@@ -49,7 +50,7 @@ class CouponPolicyServiceTest {
     @BeforeEach
     void setUp() {
         // Mock 데이터 설정
-        couponPolicy = new CouponPolicy(POLICY_ID, DISCOUNT_VALUE, MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_TYPE_DOMAIN);
+        couponPolicy = new AllPricePolicy(POLICY_ID, MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_VALUE,DISCOUNT_TYPE_DOMAIN);
         couponPolicyJpaEntity = new CouponPolicyJpaEntity(POLICY_ID, DISCOUNT_VALUE, MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_TYPE_COLUMN);
         pageable = PageRequest.of(0, 10);
     }
@@ -68,9 +69,9 @@ class CouponPolicyServiceTest {
         // then
         assertThat(actual).hasSize(1);
         CouponPolicy result = actual.get(0);
-        assertThat(result.id()).isEqualTo(POLICY_ID);
-        assertThat(result.discountValue()).isEqualTo(DISCOUNT_VALUE);
-        assertThat(result.couponDiscountType()).isEqualTo(DISCOUNT_TYPE_DOMAIN);
+        assertThat(result.getId()).isEqualTo(POLICY_ID);
+        assertThat(result.getDiscountValue()).isEqualTo(DISCOUNT_VALUE);
+        assertThat(result.getCouponDiscountType()).isEqualTo(DISCOUNT_TYPE_DOMAIN);
 
         verify(couponPolicyJpaRepository, times(1)).findAll(pageable);
     }

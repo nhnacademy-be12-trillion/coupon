@@ -9,8 +9,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.coupon.domain.policy.AllPricePolicy;
 import com.nhnacademy.coupon.domain.policy.CouponDisCountType;
-import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.service.policy.CouponPolicyService;
 import java.util.List;
@@ -50,7 +50,7 @@ class CouponPolicyControllerTest {
     @DisplayName("있으면 리스트가 출력된다.")
     void test2() throws Exception {
         Mockito.when(service.getCouponPolicys(any())).thenReturn(
-                List.of(new CouponPolicy(1L,1d,100L,100L, CouponDisCountType.FIXED_AMOUNT))
+                List.of(new AllPricePolicy(1L,100L,1L,100D, CouponDisCountType.FIXED_AMOUNT))
         );
         mockMvc.perform(RestDocumentationRequestBuilders.get("/admin/policies"))
                 .andExpect(status().isOk())

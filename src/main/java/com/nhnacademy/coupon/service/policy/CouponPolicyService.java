@@ -6,6 +6,7 @@ import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.port.out.CouponDiscountTypeColumn;
 import com.nhnacademy.coupon.port.out.CouponPolicyJpaEntity;
 import com.nhnacademy.coupon.port.out.CouponPolicyJpaRepository;
+import com.nhnacademy.coupon.service.CouponPolicyComposite;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -29,8 +30,8 @@ public class CouponPolicyService {
     }
     @Transactional
     public void update(CouponPolicy couponPolicy) {
-        if(!couponPolicyJpaRepository.existsById(couponPolicy.id()))
-            throw new CustomException("error.message.couponPolicy.notFound",new Object[]{couponPolicy.id()});
+        if(!couponPolicyJpaRepository.existsById(couponPolicy.getId()))
+            throw new CustomException("error.message.couponPolicy.notFound",new Object[]{couponPolicy.getId()});
         couponPolicyJpaRepository.save(createCouponPolicyJpaEntity(couponPolicy));
     }
     @Transactional
@@ -38,11 +39,10 @@ public class CouponPolicyService {
         couponPolicyJpaRepository.deleteById(policyId);
     }
     private CouponPolicy create(CouponPolicyJpaEntity entity) {
-        return new CouponPolicy(entity.getId(), entity.getDiscountValue(), entity.getMinOrderPrice(), entity.getMaxDiscountPrice(),
-                getCouponDisCountType(entity.getDiscountType()));
+        return CouponPolicyComposite.couponPolicy(entity.getId(), entity.getDiscountValue(), entity.getMinOrderPrice(), entity.getMaxDiscountPrice(),getCouponDisCountType(entity.getDiscountType()));
     }
     private CouponPolicyJpaEntity createCouponPolicyJpaEntity(CouponPolicy couponPolicy) {
-        return new CouponPolicyJpaEntity(couponPolicy.discountValue(),couponPolicy.minOrderPrice(),couponPolicy.maxDiscountPrice(),getCouponDisCountTypeColumn(couponPolicy.couponDiscountType()));
+        return new CouponPolicyJpaEntity(couponPolicy.getDiscountValue(),couponPolicy.getMinOrderPrice(),couponPolicy.getMaxDiscountPrice(),getCouponDisCountTypeColumn(couponPolicy.getCouponDiscountType()));
     }
     private CouponDisCountType getCouponDisCountType(CouponDiscountTypeColumn column) {
         return switch(column) {
