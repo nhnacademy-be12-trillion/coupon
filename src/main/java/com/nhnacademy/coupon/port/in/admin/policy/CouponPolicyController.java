@@ -1,4 +1,4 @@
-package com.nhnacademy.coupon.port.in.policy;
+package com.nhnacademy.coupon.port.in.admin.policy;
 
 import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.service.policy.CouponPolicyService;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/policies")
+@RequestMapping("admin/policies")
 public class CouponPolicyController {
     private final CouponPolicyService service;
     @GetMapping()

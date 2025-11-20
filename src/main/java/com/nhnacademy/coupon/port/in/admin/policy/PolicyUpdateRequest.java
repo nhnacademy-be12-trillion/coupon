@@ -1,4 +1,4 @@
-package com.nhnacademy.coupon.port.in.policy;
+package com.nhnacademy.coupon.port.in.admin.policy;
 
 import com.nhnacademy.coupon.domain.policy.CouponDisCountType;
 import com.nhnacademy.coupon.domain.policy.CouponPolicy;

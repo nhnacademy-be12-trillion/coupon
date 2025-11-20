@@ -1,4 +1,4 @@
-package com.nhnacademy.coupon.port.in.policy;
+package com.nhnacademy.coupon.port.in.admin.policy;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -42,7 +42,7 @@ class CouponPolicyControllerTest {
     @Test
     @DisplayName("없으면 빈 리스트가 출력된다.")
     void test1() throws Exception {
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/policies"))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/admin/policies"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
     }
@@ -52,7 +52,7 @@ class CouponPolicyControllerTest {
         Mockito.when(service.getCouponPolicys(any())).thenReturn(
                 List.of(new CouponPolicy(1L,1d,100L,100L, CouponDisCountType.FIXED_AMOUNT))
         );
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/policies"))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/admin/policies"))
                 .andExpect(status().isOk())
                 .andDo(document("coupon-policys/not-empty"
                                 , responseFields(
@@ -69,7 +69,7 @@ class CouponPolicyControllerTest {
     @DisplayName("저장이 안되면, 400 반환")
     void test3() throws Exception {
         Mockito.doThrow(new CustomException("error.message.fixAmount")).when(service).save(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/policies")
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/admin/policies")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(new PolicyCreateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
                 )
@@ -82,7 +82,7 @@ class CouponPolicyControllerTest {
     @DisplayName("저장이 되면, 200대 반환")
     void test4() throws Exception {
         Mockito.doNothing().when(service).save(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/policies")
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/admin/policies")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(new PolicyCreateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
                 )
@@ -95,7 +95,7 @@ class CouponPolicyControllerTest {
     @DisplayName("예외 나오면 400 반환")
     void test6() throws Exception {
         Mockito.doThrow(new CustomException("qwe")).when(service).update(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.put("/policies/1")
+        mockMvc.perform(RestDocumentationRequestBuilders.put("/admin/policies/1")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(new PolicyUpdateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
                 )
@@ -108,7 +108,7 @@ class CouponPolicyControllerTest {
     @DisplayName("예외 안나오면 200 반환")
     void test5() throws Exception {
         Mockito.doNothing().when(service).update(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.put("/policies/1")
+        mockMvc.perform(RestDocumentationRequestBuilders.put("/admin/policies/1")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(new PolicyUpdateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
                 )
@@ -121,7 +121,7 @@ class CouponPolicyControllerTest {
     @DisplayName("삭제- 돌아간다.")
     void test7() throws Exception {
         Mockito.doNothing().when(service).delete(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.delete("/policies/1")
+        mockMvc.perform(RestDocumentationRequestBuilders.delete("/admin/policies/1")
                 )
                 .andExpect(status().isOk())
                 .andDo(document("coupon-policys/delete/success",
