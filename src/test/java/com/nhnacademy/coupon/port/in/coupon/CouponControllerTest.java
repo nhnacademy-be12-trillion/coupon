@@ -4,8 +4,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nhnacademy.coupon.domain.coupon.Coupon;
-import com.nhnacademy.coupon.error.CustomException;
-import com.nhnacademy.coupon.port.in.coupon.maker.RequestMakerComposite;
 import com.nhnacademy.coupon.service.CouponService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,8 +26,6 @@ class CouponControllerTest {
     private MockMvc mockMvc;
     @MockitoBean
     private CouponService couponService;
-    @MockitoBean
-    private RequestMakerComposite requestMakerComposite;
 
     @Test
     @DisplayName("없으면 빈리스트를 반환한다.")
@@ -47,33 +43,5 @@ class CouponControllerTest {
         ));
         mockMvc.perform(RestDocumentationRequestBuilders.get("/coupons"))
                 .andExpect(status().isOk());
-    }
-    @Test
-    @DisplayName("저장에서 문제 생기면, 400 반환")
-    void test2() throws Exception {
-        Mockito.doThrow(new CustomException("qwe")).when(couponService).save(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/coupons"))
-                .andExpect(status().isBadRequest());
-    }
-    @Test
-    @DisplayName("저장 되면, 200 반환")
-    void test3() throws Exception {
-        Mockito.doNothing().when(couponService).save(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/coupons"))
-                .andExpect(status().isBadRequest());
-    }
-    @Test
-    @DisplayName("업데이트에서 문제 생기면, 400 반환")
-    void test4() throws Exception {
-        Mockito.doThrow(new CustomException("qwe")).when(couponService).update(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.put("/coupons/1"))
-                .andExpect(status().isBadRequest());
-    }
-    @Test
-    @DisplayName("업데이트 되면, 200 반환")
-    void test5() throws Exception {
-        Mockito.doNothing().when(couponService).update(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.put("/coupons/1"))
-                .andExpect(status().isBadRequest());
     }
 }

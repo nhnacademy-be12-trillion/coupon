@@ -1,8 +1,8 @@
-package com.nhnacademy.coupon.port.in.coupon.maker;
+package com.nhnacademy.coupon.port.in.admin.coupon.maker;
 
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.domain.coupon.CouponType;
-import com.nhnacademy.coupon.port.in.coupon.CouponRequest;
+import com.nhnacademy.coupon.port.in.admin.coupon.CouponRequest;
 import org.springframework.stereotype.Component;
 
 @Component

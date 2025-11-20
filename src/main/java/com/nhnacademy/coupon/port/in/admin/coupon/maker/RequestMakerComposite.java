@@ -1,8 +1,8 @@
-package com.nhnacademy.coupon.port.in.coupon.maker;
+package com.nhnacademy.coupon.port.in.admin.coupon.maker;
 
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.error.CustomException;
-import com.nhnacademy.coupon.port.in.coupon.CouponRequest;
+import com.nhnacademy.coupon.port.in.admin.coupon.CouponRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

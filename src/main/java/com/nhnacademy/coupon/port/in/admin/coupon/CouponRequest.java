@@ -1,4 +1,4 @@
-package com.nhnacademy.coupon.port.in.coupon;
+package com.nhnacademy.coupon.port.in.admin.coupon;
 
 import com.nhnacademy.coupon.domain.coupon.CouponType;
 import java.time.LocalDateTime;

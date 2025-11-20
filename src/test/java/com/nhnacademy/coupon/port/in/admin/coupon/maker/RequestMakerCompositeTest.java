@@ -1,11 +1,10 @@
-package com.nhnacademy.coupon.port.in.coupon.maker;
+package com.nhnacademy.coupon.port.in.admin.coupon.maker;
 
 import com.nhnacademy.coupon.domain.coupon.CategoryCoupon;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.domain.coupon.CouponType;
 import com.nhnacademy.coupon.domain.coupon.NameCoupon;
 import com.nhnacademy.coupon.error.CustomException;
-import com.nhnacademy.coupon.port.in.coupon.TestCouponRequestImpl;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.assertj.core.api.Assertions;
