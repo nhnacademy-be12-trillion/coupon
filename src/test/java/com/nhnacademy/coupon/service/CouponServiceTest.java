@@ -16,6 +16,8 @@ import static org.mockito.Mockito.when;
 
 import com.nhnacademy.coupon.domain.Book;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
+import com.nhnacademy.coupon.domain.policy.AllPricePolicy;
+import com.nhnacademy.coupon.domain.policy.CouponDisCountType;
 import com.nhnacademy.coupon.domain.policy.Price;
 import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.port.out.MemberCouponJpaEntity;
@@ -192,5 +194,14 @@ class CouponServiceTest {
                 () -> couponService.rollbackCoupon(TEST_COUPON_ID, TEST_MEMBER_ID));
 
         verify(mockMemberCouponEntity, never()).rollback();
+    }
+    @Test
+    @DisplayName("월켐 쿠폰 저장")
+    void issueWelcomeCoupon() {
+        when(couponPolicyService.getWelcomePolicy()).thenReturn(new AllPricePolicy(1L,"welcome",500L,1000L,5000D,
+                CouponDisCountType.FIXED_AMOUNT));
+        given(couponJpaRepository.save(any())).willReturn(mockCouponEntity);
+        given(memberCouponJpaRepository.save(any())).willReturn(mockMemberCouponEntity);
+        Assertions.assertThatCode(()->couponService.issueWelcomeCoupon(TEST_MEMBER_ID)).doesNotThrowAnyException();
     }
 }

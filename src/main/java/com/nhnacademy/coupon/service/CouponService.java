@@ -2,13 +2,16 @@ package com.nhnacademy.coupon.service;
 
 import com.nhnacademy.coupon.domain.Book;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
+import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.domain.policy.Price;
 import com.nhnacademy.coupon.error.CustomException;
+import com.nhnacademy.coupon.port.out.MemberCouponJpaEntity;
 import com.nhnacademy.coupon.port.out.MemberCouponJpaRepository;
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaRepository;
 import com.nhnacademy.coupon.service.maker.MakerComposite;
 import com.nhnacademy.coupon.service.policy.CouponPolicyService;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -67,5 +70,12 @@ public class CouponService {
         memberCouponJpaRepository.findByCouponIdAndMemberId(couponId, memberId)
                 .orElseThrow(() -> new CustomException("error.message.notFoundMemberCouponId", new Object[]{couponId, memberId}))
                 .rollback();
+    }
+    @Transactional
+    public void issueWelcomeCoupon(Long memberId) {
+        CouponPolicy welcomePolicy = couponPolicyService.getWelcomePolicy();
+        LocalDateTime now = LocalDateTime.now();
+        CouponJpaEntity entity= couponJpaRepository.save(new CouponJpaEntity(null, welcomePolicy.getName(), welcomePolicy.getId(), 1L, now, now.plusDays(30), null, null));
+        memberCouponJpaRepository.save(new MemberCouponJpaEntity(memberId,entity.getId()));
     }
 }

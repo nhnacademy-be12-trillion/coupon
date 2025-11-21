@@ -3,9 +3,9 @@ package com.nhnacademy.coupon.domain.policy;
 import com.nhnacademy.coupon.error.CustomException;
 
 public class AllPricePolicy extends CouponPolicy{
-    public AllPricePolicy(Long id, Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
+    public AllPricePolicy(Long id, String name,Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
                           CouponDisCountType couponDiscountType) {
-        super(id, minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
+        super(id, name,minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
     }
 
     @Override

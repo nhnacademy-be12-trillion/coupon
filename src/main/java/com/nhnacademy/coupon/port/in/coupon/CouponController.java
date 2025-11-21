@@ -27,6 +27,10 @@ public class CouponController {
     public void issueCoupon(@PathVariable Long couponId, Long memberId, Book book) {
         couponService.useCoupon(couponId,memberId,book);
     }
+    @PostMapping("")
+    public void issueWelcomeCoupon(Long memberId) {
+        couponService.issueWelcomeCoupon(memberId);
+    }
     @DeleteMapping("/{couponId}/use")
     public void rollbackCoupon(@PathVariable Long couponId, Long memberId) {
         couponService.rollbackCoupon(couponId,memberId);

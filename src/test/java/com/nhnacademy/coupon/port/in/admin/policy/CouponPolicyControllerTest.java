@@ -50,7 +50,7 @@ class CouponPolicyControllerTest {
     @DisplayName("있으면 리스트가 출력된다.")
     void test2() throws Exception {
         Mockito.when(service.getCouponPolicys(any())).thenReturn(
-                List.of(new AllPricePolicy(1L,100L,1L,100D, CouponDisCountType.FIXED_AMOUNT))
+                List.of(new AllPricePolicy(1L,"qwe",100L,1L,100D, CouponDisCountType.FIXED_AMOUNT))
         );
         mockMvc.perform(RestDocumentationRequestBuilders.get("/admin/policies"))
                 .andExpect(status().isOk())
@@ -58,6 +58,7 @@ class CouponPolicyControllerTest {
                                 , responseFields(
                                         fieldWithPath("[]").description("쿠폰 정책들"),
                                 fieldWithPath("[].id").description("쿠폰정책 id"),
+                                fieldWithPath("[].name").description("쿠폰정책 이름"),
                                 fieldWithPath("[].discountValue").description("할인값/할인 타입이 FIXED_AMOUNT이면 금액할인/RATE이면 할인율"),
                                 fieldWithPath("[].couponDiscountType").description("FIXED_AMOUNT이면 금액할인/RATE이면 할인율"),
                                 fieldWithPath("[].minOrderPrice").description("최소 주문금액"),
@@ -71,7 +72,7 @@ class CouponPolicyControllerTest {
         Mockito.doThrow(new CustomException("error.message.fixAmount")).when(service).save(any());
         mockMvc.perform(RestDocumentationRequestBuilders.post("/admin/policies")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(objectMapper.writeValueAsString(new PolicyCreateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
+                        .content(objectMapper.writeValueAsString(new PolicyCreateRequest("qwe",100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
                 )
                 .andExpect(status().isBadRequest())
                 .andDo(document("coupon-policys/save/fail",
@@ -84,7 +85,7 @@ class CouponPolicyControllerTest {
         Mockito.doNothing().when(service).save(any());
         mockMvc.perform(RestDocumentationRequestBuilders.post("/admin/policies")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(objectMapper.writeValueAsString(new PolicyCreateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
+                        .content(objectMapper.writeValueAsString(new PolicyCreateRequest("q23",100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
                 )
                 .andExpect(status().isOk())
                 .andDo(document("coupon-policys/save/success",
@@ -97,7 +98,7 @@ class CouponPolicyControllerTest {
         Mockito.doThrow(new CustomException("qwe")).when(service).update(any());
         mockMvc.perform(RestDocumentationRequestBuilders.put("/admin/policies/1")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(objectMapper.writeValueAsString(new PolicyUpdateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
+                        .content(objectMapper.writeValueAsString(new PolicyUpdateRequest("qwe",100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
                 )
                 .andExpect(status().isBadRequest())
                 .andDo(document("coupon-policys/update/fail",
@@ -110,7 +111,7 @@ class CouponPolicyControllerTest {
         Mockito.doNothing().when(service).update(any());
         mockMvc.perform(RestDocumentationRequestBuilders.put("/admin/policies/1")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(objectMapper.writeValueAsString(new PolicyUpdateRequest(100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
+                        .content(objectMapper.writeValueAsString(new PolicyUpdateRequest("qwe",100D,200L,2000L,CouponDisCountType.FIXED_AMOUNT)))
                 )
                 .andExpect(status().isOk())
                 .andDo(document("coupon-policys/update/success",

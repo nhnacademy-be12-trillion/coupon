@@ -31,6 +31,8 @@ public class CouponPolicyController {
     public void updateCouponPolicy(@PathVariable Long policyId,@RequestBody PolicyUpdateRequest request) {
         service.update(request.createCouponPolicy(policyId));
     }
+    //정책 삭제시 주문이 있는경우는 삭제 하면 안됨.
+    //
     @DeleteMapping("{policyId}")
     public void deleteCouponPolicy(@PathVariable Long policyId) {
         service.delete(policyId);

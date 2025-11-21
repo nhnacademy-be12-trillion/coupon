@@ -11,12 +11,12 @@ import java.util.stream.Stream;
 
 public class CouponPolicyComposite {
     private CouponPolicyComposite(){}
-    public static CouponPolicy couponPolicy(Long id,Double discountValue, Long minOrderPrice, Long maxDiscountPrice, CouponDisCountType couponDiscountType){
+    public static CouponPolicy couponPolicy(Long id,String name,Double discountValue, Long minOrderPrice, Long maxDiscountPrice, CouponDisCountType couponDiscountType){
         return Stream.of(
-                new AllPricePolicy(id,minOrderPrice,maxDiscountPrice,discountValue,couponDiscountType)
-                ,new OnlyMaxDisCountPricePolicy(id,minOrderPrice,maxDiscountPrice,discountValue,couponDiscountType)
-                ,new OnlyMinOrderPriceCouponPolicy(id,minOrderPrice,maxDiscountPrice,discountValue,couponDiscountType)
-                        ,new NonePricePolicy(id,minOrderPrice,maxDiscountPrice,discountValue,couponDiscountType)
+                new AllPricePolicy(id,name,minOrderPrice,maxDiscountPrice,discountValue,couponDiscountType)
+                ,new OnlyMaxDisCountPricePolicy(id,name,minOrderPrice,maxDiscountPrice,discountValue,couponDiscountType)
+                ,new OnlyMinOrderPriceCouponPolicy(id,name,minOrderPrice,maxDiscountPrice,discountValue,couponDiscountType)
+                        ,new NonePricePolicy(id,name,minOrderPrice,maxDiscountPrice,discountValue,couponDiscountType)
                 )
                 .filter(CouponPolicy::match)
                 .findAny()

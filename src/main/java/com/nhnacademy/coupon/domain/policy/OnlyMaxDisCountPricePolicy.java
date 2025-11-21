@@ -1,9 +1,9 @@
 package com.nhnacademy.coupon.domain.policy;
 
 public class OnlyMaxDisCountPricePolicy extends CouponPolicy{
-    public OnlyMaxDisCountPricePolicy(Long id, Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
+    public OnlyMaxDisCountPricePolicy(Long id, String name,Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
                                       CouponDisCountType couponDiscountType) {
-        super(id, minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
+        super(id, name,minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
     }
 
     @Override

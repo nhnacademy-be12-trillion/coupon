@@ -54,8 +54,8 @@ class CouponPolicyServiceTest {
     @BeforeEach
     void setUp() {
         // Mock 데이터 설정
-        couponPolicy = new AllPricePolicy(POLICY_ID, MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_VALUE,DISCOUNT_TYPE_DOMAIN);
-        couponPolicyJpaEntity = new CouponPolicyJpaEntity(POLICY_ID, DISCOUNT_VALUE, MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_TYPE_COLUMN);
+        couponPolicy = new AllPricePolicy(POLICY_ID, "qwe",MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_VALUE,DISCOUNT_TYPE_DOMAIN);
+        couponPolicyJpaEntity = new CouponPolicyJpaEntity(POLICY_ID,"qwe", DISCOUNT_VALUE, MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_TYPE_COLUMN);
         pageable = PageRequest.of(0, 10);
         price= new Price(1000L);
     }
@@ -166,5 +166,19 @@ class CouponPolicyServiceTest {
         Assertions.assertThatCode(()->couponPolicyService.validatePolicy(POLICY_ID,price)).doesNotThrowAnyException();
     }
 
-
+    @Test
+    @DisplayName("couponPolicy이 있는경우 작동된다.")
+    void welcomeCouponTest(){
+        when(couponPolicyJpaRepository.existsByName(any())).thenReturn(true);
+        when(couponPolicyJpaRepository.findByName(any())).thenReturn(Optional.of(couponPolicyJpaEntity));
+        Assertions.assertThatCode(()->couponPolicyService.getWelcomePolicy()).doesNotThrowAnyException();
+    }
+    @Test
+    @DisplayName("couponPolicy이 없어도 저장되고 작동된다.")
+    void welcomeCouponTest1(){
+        when(couponPolicyJpaRepository.existsByName(any())).thenReturn(false);
+        when(couponPolicyJpaRepository.save(any())).thenReturn(couponPolicyJpaEntity);
+        when(couponPolicyJpaRepository.findByName(any())).thenReturn(Optional.of(couponPolicyJpaEntity));
+        Assertions.assertThatCode(()->couponPolicyService.getWelcomePolicy()).doesNotThrowAnyException();
+    }
 }
