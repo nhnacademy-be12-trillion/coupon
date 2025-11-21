@@ -1,5 +1,6 @@
 package com.nhnacademy.coupon.domain.coupon;
 
+import com.nhnacademy.coupon.domain.Book;
 import com.nhnacademy.coupon.error.CustomException;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -18,6 +19,10 @@ public class Coupon {
         if(issueEndDate.isBefore(issueStartDate)||issueEndDate.isEqual(issueStartDate)) {
             throw new CustomException("error.message.illegalDate",new Object[]{issueStartDate,issueEndDate});
         }
+        if(quantity!=null&& quantity<=0){
+            throw new CustomException("error.message.quantity",new Object[]{quantity});
+        }
+
         this.id = id;
         this.name = name;
         this.policyId = policyId;
@@ -25,13 +30,19 @@ public class Coupon {
         this.issueStartDate = issueStartDate;
         this.issueEndDate = issueEndDate;
     }
-
-    public CouponType getType(){
-        return CouponType.DEFAULT;
+    public void validateCoupon(Book book,  Long usingCount) {
+        LocalDateTime now = LocalDateTime.now();
+        if(!compareQuantity(usingCount) || !(issueStartDate.isBefore(now) && now.isBefore(issueEndDate))
+        ){
+            throw new CustomException("error.message.notUseMemberCoupon");
+        }
     }
-    public boolean isActive(){
+
+    private boolean compareQuantity(Long usingCount) {
+        if(usingCount<0)
+            return false;
         if(quantity==null)
             return true;
-        return quantity>0;
+        return quantity>=usingCount;
     }
 }

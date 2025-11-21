@@ -1,16 +1,17 @@
 package com.nhnacademy.coupon.port.in.admin.coupon.maker;
 
 import com.nhnacademy.coupon.domain.coupon.Coupon;
-import com.nhnacademy.coupon.domain.coupon.CouponType;
 import com.nhnacademy.coupon.domain.coupon.NameCoupon;
 import com.nhnacademy.coupon.port.in.admin.coupon.CouponRequest;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+@Order(2)
 @Component
-class NameCouponRequestMaker implements CouponRequestMaker {
+class BookNameCouponRequestMaker implements CouponRequestMaker {
     @Override
     public boolean match(CouponRequest request) {
-        return request.type()== CouponType.NAME;
+        return request.bookName()!=null&&!request.bookName().isBlank();
     }
 
     @Override

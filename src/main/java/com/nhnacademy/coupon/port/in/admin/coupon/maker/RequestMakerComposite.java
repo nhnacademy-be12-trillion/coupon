@@ -11,11 +11,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RequestMakerComposite {
     private final List<CouponRequestMaker> couponRequestMakers;
+
     public Coupon make(Long id,CouponRequest request) {
         return couponRequestMakers.stream()
                 .filter(requestMaker -> requestMaker.match(request))
                 .findAny()
-                .orElseThrow(()->new CustomException("error.message.notFoundCouponMaker",new Object[]{String.valueOf(request.type())}))
+                .orElseThrow(()->new CustomException("error.message.notFoundCouponMaker"))
                 .make(id,request);
     }
 }

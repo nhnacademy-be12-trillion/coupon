@@ -1,4 +1,4 @@
 package com.nhnacademy.coupon.domain;
 
-public record Book(String name,String category) {
+public record Book(Long price,String name,String category) {
 }

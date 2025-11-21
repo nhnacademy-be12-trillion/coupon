@@ -11,11 +11,14 @@ import static org.mockito.Mockito.when;
 import com.nhnacademy.coupon.domain.policy.AllPricePolicy;
 import com.nhnacademy.coupon.domain.policy.CouponDisCountType;
 import com.nhnacademy.coupon.domain.policy.CouponPolicy;
+import com.nhnacademy.coupon.domain.policy.Price;
 import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.port.out.CouponDiscountTypeColumn;
 import com.nhnacademy.coupon.port.out.CouponPolicyJpaEntity;
 import com.nhnacademy.coupon.port.out.CouponPolicyJpaRepository;
 import java.util.List;
+import java.util.Optional;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,8 +40,8 @@ class CouponPolicyServiceTest {
     private static final Double DISCOUNT_VALUE = 10D;
     private static final Long MIN_ORDER_PRICE = 5000L;
     private static final Long MAX_DISCOUNT_PRICE = 10000L;
-    private static final CouponDisCountType DISCOUNT_TYPE_DOMAIN = CouponDisCountType.RATE;
-    private static final CouponDiscountTypeColumn DISCOUNT_TYPE_COLUMN = CouponDiscountTypeColumn.RATE;
+    private static final CouponDisCountType DISCOUNT_TYPE_DOMAIN = CouponDisCountType.FIXED_AMOUNT;
+    private static final CouponDiscountTypeColumn DISCOUNT_TYPE_COLUMN = CouponDiscountTypeColumn.FIX_AMOUNT;
     @InjectMocks
     private CouponPolicyService couponPolicyService;
     @Mock
@@ -46,6 +49,7 @@ class CouponPolicyServiceTest {
     private CouponPolicy couponPolicy;
     private CouponPolicyJpaEntity couponPolicyJpaEntity;
     private Pageable pageable;
+    private Price price;
 
     @BeforeEach
     void setUp() {
@@ -53,6 +57,7 @@ class CouponPolicyServiceTest {
         couponPolicy = new AllPricePolicy(POLICY_ID, MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_VALUE,DISCOUNT_TYPE_DOMAIN);
         couponPolicyJpaEntity = new CouponPolicyJpaEntity(POLICY_ID, DISCOUNT_VALUE, MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_TYPE_COLUMN);
         pageable = PageRequest.of(0, 10);
+        price= new Price(1000L);
     }
 
     // --- getCouponPolicys Test ---
@@ -68,7 +73,7 @@ class CouponPolicyServiceTest {
 
         // then
         assertThat(actual).hasSize(1);
-        CouponPolicy result = actual.get(0);
+        CouponPolicy result = actual.getFirst();
         assertThat(result.getId()).isEqualTo(POLICY_ID);
         assertThat(result.getDiscountValue()).isEqualTo(DISCOUNT_VALUE);
         assertThat(result.getCouponDiscountType()).isEqualTo(DISCOUNT_TYPE_DOMAIN);
@@ -128,5 +133,38 @@ class CouponPolicyServiceTest {
         // then
         verify(couponPolicyJpaRepository, times(1)).deleteById(POLICY_ID);
     }
+
+    @Test
+    @DisplayName("exist는 policy가 없으면 안된다.")
+    void exist_shouldReturnFalse_whenNotExists() {
+        when(couponPolicyJpaRepository.existsById(POLICY_ID)).thenReturn(false);
+        Assertions.assertThatThrownBy(()->couponPolicyService.validateExistById(POLICY_ID)).isInstanceOf(CustomException.class);
+    }
+    @Test
+    @DisplayName("exist는 policy가 있으면 된다.")
+    void exist_shouldReturnTrue_whenExists() {
+        when(couponPolicyJpaRepository.existsById(POLICY_ID)).thenReturn(true);
+        Assertions.assertThatCode(()->couponPolicyService.validateExistById(POLICY_ID)).doesNotThrowAnyException();
+    }
+    @Test
+    @DisplayName("validate는 policy가 없으면 안된다.")
+    void validate_shouldReturnFalse_whenExists() {
+        when(couponPolicyJpaRepository.findById(POLICY_ID)).thenReturn(Optional.empty());
+        Assertions.assertThatThrownBy(()->couponPolicyService.validatePolicy(POLICY_ID,price)).isInstanceOf(CustomException.class);
+    }
+    @Test
+    @DisplayName("validate 가격이 최소 금액보다 작으면 안된다.")
+    void validate_shouldReturnFalse_whenExists1() {
+        when(couponPolicyJpaRepository.findById(POLICY_ID)).thenReturn(Optional.of(couponPolicyJpaEntity));
+        Assertions.assertThatThrownBy(()->couponPolicyService.validatePolicy(POLICY_ID,price)).isInstanceOf(CustomException.class);
+    }
+    @Test
+    @DisplayName("validate 정책이 있고,가격이 최소금액보다 크면 된다.")
+    void validate_shouldReturnTrue_whenExists1() {
+        when(couponPolicyJpaRepository.findById(POLICY_ID)).thenReturn(Optional.of(couponPolicyJpaEntity));
+        price =new Price(couponPolicyJpaEntity.getMinOrderPrice());
+        Assertions.assertThatCode(()->couponPolicyService.validatePolicy(POLICY_ID,price)).doesNotThrowAnyException();
+    }
+
 
 }

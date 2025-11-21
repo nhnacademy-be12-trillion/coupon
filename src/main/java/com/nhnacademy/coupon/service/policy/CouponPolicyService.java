@@ -2,6 +2,7 @@ package com.nhnacademy.coupon.service.policy;
 
 import com.nhnacademy.coupon.domain.policy.CouponDisCountType;
 import com.nhnacademy.coupon.domain.policy.CouponPolicy;
+import com.nhnacademy.coupon.domain.policy.Price;
 import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.port.out.CouponDiscountTypeColumn;
 import com.nhnacademy.coupon.port.out.CouponPolicyJpaEntity;
@@ -24,14 +25,19 @@ public class CouponPolicyService {
                 .map(this::create)
                 .toList();
     }
+
+    public void validateExistById(Long id){
+        if(!couponPolicyJpaRepository.existsById(id))
+            throw new CustomException("error.message.couponPolicy.notFound",new Object[]{id});
+    }
+
     @Transactional
     public void save(CouponPolicy couponPolicy) {
         couponPolicyJpaRepository.save(createCouponPolicyJpaEntity(couponPolicy));
     }
     @Transactional
     public void update(CouponPolicy couponPolicy) {
-        if(!couponPolicyJpaRepository.existsById(couponPolicy.getId()))
-            throw new CustomException("error.message.couponPolicy.notFound",new Object[]{couponPolicy.getId()});
+        validateExistById(couponPolicy.getId());
         couponPolicyJpaRepository.save(createCouponPolicyJpaEntity(couponPolicy));
     }
     @Transactional
@@ -55,5 +61,12 @@ public class CouponPolicyService {
             case FIXED_AMOUNT -> CouponDiscountTypeColumn.FIX_AMOUNT;
             case RATE -> CouponDiscountTypeColumn.RATE;
         };
+    }
+
+    public void validatePolicy(Long policyId, Price price) {
+        CouponPolicy couponPolicy = create(couponPolicyJpaRepository.findById(policyId)
+                .orElseThrow(() -> new CustomException("error.message.couponPolicy.notFound", new Object[]{policyId}))
+        );
+        couponPolicy.getApplyCouponPrice(price);
     }
 }

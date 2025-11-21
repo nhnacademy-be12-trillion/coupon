@@ -1,13 +1,12 @@
 package com.nhnacademy.coupon.port.out.coupon;
 
-import com.nhnacademy.coupon.domain.Book;
+import com.nhnacademy.coupon.domain.coupon.CategoryCoupon;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
+import com.nhnacademy.coupon.domain.coupon.NameCoupon;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -20,7 +19,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
-@Inheritance(strategy = InheritanceType.JOINED)
 public class CouponJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +28,9 @@ public class CouponJpaEntity {
     private Long quantity;
     private LocalDateTime issueStartDate;
     private LocalDateTime issueEndDate;
+    private String categoryName;
+    private String bookName;
+
     public CouponJpaEntity(Coupon coupon) {
         this.id = coupon.getId();
         this.name = coupon.getName();
@@ -38,11 +39,22 @@ public class CouponJpaEntity {
         this.issueStartDate = coupon.getIssueStartDate();
         this.issueEndDate = coupon.getIssueEndDate();
     }
-    public CouponKindColumn getCouponType(){
-        return CouponKindColumn.DEFAULT;
+    public CouponJpaEntity(CategoryCoupon coupon) {
+        this.id = coupon.getId();
+        this.name = coupon.getName();
+        this.policyId = coupon.getPolicyId();
+        this.quantity = coupon.getQuantity();
+        this.issueStartDate = coupon.getIssueStartDate();
+        this.issueEndDate = coupon.getIssueEndDate();
+        this.categoryName = coupon.getCategoryName();
     }
-    public boolean isAvailable(LocalDateTime now, Book book) {
-        return issueStartDate.isBefore(now) && now.isBefore(issueEndDate);
+    public CouponJpaEntity(NameCoupon coupon) {
+        this.id = coupon.getId();
+        this.name = coupon.getName();
+        this.policyId = coupon.getPolicyId();
+        this.quantity = coupon.getQuantity();
+        this.issueStartDate = coupon.getIssueStartDate();
+        this.issueEndDate = coupon.getIssueEndDate();
+        this.bookName = coupon.getBookName();
     }
-
 }

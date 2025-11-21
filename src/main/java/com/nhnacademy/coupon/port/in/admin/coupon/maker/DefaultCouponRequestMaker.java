@@ -1,7 +1,6 @@
 package com.nhnacademy.coupon.port.in.admin.coupon.maker;
 
 import com.nhnacademy.coupon.domain.coupon.Coupon;
-import com.nhnacademy.coupon.domain.coupon.CouponType;
 import com.nhnacademy.coupon.port.in.admin.coupon.CouponRequest;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Component;
 class DefaultCouponRequestMaker implements CouponRequestMaker {
     @Override
     public boolean match(CouponRequest request) {
-        return request.type()== CouponType.DEFAULT;
+        return true;
     }
 
     @Override

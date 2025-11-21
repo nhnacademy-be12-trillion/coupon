@@ -1,5 +1,7 @@
 package com.nhnacademy.coupon.domain.coupon;
 
+import com.nhnacademy.coupon.domain.Book;
+import com.nhnacademy.coupon.error.CustomException;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
@@ -11,8 +13,12 @@ public class CategoryCoupon extends Coupon{
         super(id, name, policyId, quantity, issueStartDate, issueEndDate);
         this.categoryName = categoryName;
     }
+
     @Override
-    public CouponType getType(){
-        return CouponType.CATEGORY;
+    public void validateCoupon(Book book, Long usingCount) {
+        super.validateCoupon(book, usingCount);
+        if(!book.category().equals(categoryName))
+            throw new CustomException("error.message.notFoundCoupon");
+
     }
 }

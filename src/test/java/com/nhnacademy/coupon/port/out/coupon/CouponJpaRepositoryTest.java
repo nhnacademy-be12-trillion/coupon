@@ -17,7 +17,7 @@ class CouponJpaRepositoryTest {
     @Test
     @DisplayName("아이디가 널인걸 저장하면 값이 정상적으로 작동한다.")
     void save() {
-        Assertions.assertThatCode(()->couponJpaRepository.save(new CouponJpaEntity(null,"qwe",1L,1L, LocalDateTime.now(),LocalDateTime.now().plusDays(1)))).doesNotThrowAnyException();
+        Assertions.assertThatCode(()->couponJpaRepository.save(new CouponJpaEntity(null,"qwe",1L,1L, LocalDateTime.now(),LocalDateTime.now().plusDays(1),null,null))).doesNotThrowAnyException();
         Assertions.assertThat(couponJpaRepository.findAll().getFirst().getId()).isEqualTo(1);
     }
 }

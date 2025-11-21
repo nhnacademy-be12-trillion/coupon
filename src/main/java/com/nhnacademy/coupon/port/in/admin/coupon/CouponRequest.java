@@ -1,6 +1,5 @@
 package com.nhnacademy.coupon.port.in.admin.coupon;
 
-import com.nhnacademy.coupon.domain.coupon.CouponType;
 import java.time.LocalDateTime;
 
 public interface CouponRequest {
@@ -18,6 +17,4 @@ public interface CouponRequest {
     Long policyId();
 
     String name();
-
-    CouponType type();
 }
