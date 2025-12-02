@@ -18,7 +18,7 @@ on:
 env:
   REGISTRY: ghcr.io
   REGISTRY_OWNER: nhnacademy-be12-trillion
-  IMAGE_NAME: coupon
+  IMAGE_NAME: coupon-service
   JAVA_VERSION: 21
   DEPLOY_DIR: ~/msa-project
 
