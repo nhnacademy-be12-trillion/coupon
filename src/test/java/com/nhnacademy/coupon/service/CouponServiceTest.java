@@ -138,12 +138,12 @@ class CouponServiceTest {
         given(couponJpaRepository.findById(any())).willReturn(Optional.of(mockCouponEntity));
         given(makerComposite.makeCoupon(mockCouponEntity)).willReturn(mockCoupon);
         given(memberCouponJpaRepository.findByUsingCouponIdWithLock(any())).willReturn(0L);
-        doNothing().when(mockCoupon).validateCoupon(any(Book.class), anyLong());
+        doNothing().when(mockCoupon).validateCoupon(any(Book.class), anyLong(), any());
         doNothing().when(couponPolicyService).validatePolicy(anyLong(), any(Price.class));
         given(memberCouponJpaRepository.findByCouponIdAndMemberId(any(), anyLong()))
                 .willReturn(Optional.of(mockMemberCouponEntity));
 
-        Assertions.assertThatCode(()->couponService.useCoupon(TEST_COUPON_ID, TEST_MEMBER_ID, mockBook));
+        Assertions.assertThatCode(()->couponService.useCoupon(TEST_COUPON_ID, TEST_MEMBER_ID, mockBook)).doesNotThrowAnyException();
     }
 
     @Test

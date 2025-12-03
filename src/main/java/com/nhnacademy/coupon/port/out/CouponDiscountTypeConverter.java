@@ -10,7 +10,7 @@ public class CouponDiscountTypeConverter implements AttributeConverter<CouponDis
     @Override
     public CouponDisCountType convertToDatabaseColumn(CouponDiscountTypeColumn attribute) {
         return switch(attribute) {
-            case CouponDiscountTypeColumn.FIX_AMOUNT-> CouponDisCountType.FIXED_AMOUNT;
+            case CouponDiscountTypeColumn.FIXED_AMOUNT -> CouponDisCountType.FIXED_AMOUNT;
             case CouponDiscountTypeColumn.RATE-> CouponDisCountType.RATE;
         };
     }
@@ -18,7 +18,7 @@ public class CouponDiscountTypeConverter implements AttributeConverter<CouponDis
     @Override
     public CouponDiscountTypeColumn convertToEntityAttribute(CouponDisCountType dbData) {
         return switch (dbData){
-            case FIXED_AMOUNT -> CouponDiscountTypeColumn.FIX_AMOUNT;
+            case FIXED_AMOUNT -> CouponDiscountTypeColumn.FIXED_AMOUNT;
             case RATE -> CouponDiscountTypeColumn.RATE;
         };
     }

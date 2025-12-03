@@ -15,7 +15,7 @@ public class RequestMakerComposite {
     public Coupon make(Long id,CouponRequest request) {
         return couponRequestMakers.stream()
                 .filter(requestMaker -> requestMaker.match(request))
-                .findAny()
+                .findFirst()
                 .orElseThrow(()->new CustomException("error.message.notFoundCouponMaker"))
                 .make(id,request);
     }

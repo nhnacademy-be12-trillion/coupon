@@ -15,8 +15,8 @@ public class NameCoupon extends Coupon{
     }
 
     @Override
-    public void validateCoupon(Book book, Long usingCount) {
-        super.validateCoupon(book, usingCount);
+    public void validateCoupon(Book book, Long usingCount, LocalDateTime now) {
+        super.validateCoupon(book, usingCount, now);
         if(!book.name().equals(bookName))
             throw new CustomException("error.message.notFoundCoupon");
     }

@@ -5,7 +5,7 @@ import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Order
+@Order(Integer.MAX_VALUE)
 @Component
 class DefaultCouponMaker implements CouponMaker {
     @Override

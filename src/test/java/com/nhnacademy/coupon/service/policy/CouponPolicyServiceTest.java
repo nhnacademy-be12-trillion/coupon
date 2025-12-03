@@ -41,7 +41,7 @@ class CouponPolicyServiceTest {
     private static final Long MIN_ORDER_PRICE = 5000L;
     private static final Long MAX_DISCOUNT_PRICE = 10000L;
     private static final CouponDisCountType DISCOUNT_TYPE_DOMAIN = CouponDisCountType.FIXED_AMOUNT;
-    private static final CouponDiscountTypeColumn DISCOUNT_TYPE_COLUMN = CouponDiscountTypeColumn.FIX_AMOUNT;
+    private static final CouponDiscountTypeColumn DISCOUNT_TYPE_COLUMN = CouponDiscountTypeColumn.FIXED_AMOUNT;
     @InjectMocks
     private CouponPolicyService couponPolicyService;
     @Mock

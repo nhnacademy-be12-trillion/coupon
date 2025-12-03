@@ -31,7 +31,7 @@ class CouponTest {
     void testCoupon1() {
         LocalDateTime start = LocalDateTime.now();
 
-        Assertions.assertThatCode(()->new Coupon(null,"qwe",1L,null,start,start)).isInstanceOf(CustomException.class);
+        Assertions.assertThatThrownBy(()->new Coupon(null,"qwe",1L,null,start,start)).isInstanceOf(CustomException.class);
     }
     @ParameterizedTest
     @ValueSource(longs = {-1,0})
@@ -40,7 +40,7 @@ class CouponTest {
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end= start.plusSeconds(1);
 
-        Assertions.assertThatCode(()->new Coupon(null,"qwe",1L,quantity,start,end)).isInstanceOf(CustomException.class);
+        Assertions.assertThatThrownBy(()->new Coupon(null,"qwe",1L,quantity,start,end)).isInstanceOf(CustomException.class);
     }
 
 
@@ -58,9 +58,9 @@ class CouponTest {
     @DisplayName("쿠폰 수량이 null이면 활성화된다.")
     void activeTest(long usingCount){
         LocalDateTime start = LocalDateTime.now();
-        LocalDateTime end= start.plusSeconds(1);
+        LocalDateTime end= start.plusSeconds(2);
         Coupon coupon = new Coupon(null, "qwe", 1L, null, start, end);
-        Assertions.assertThatCode(()->coupon.validateCoupon(book,usingCount)).doesNotThrowAnyException();
+        Assertions.assertThatCode(()->coupon.validateCoupon(book,usingCount,start.plusSeconds(1))).doesNotThrowAnyException();
     }
 
     @ParameterizedTest
@@ -68,9 +68,9 @@ class CouponTest {
     @DisplayName("쿠폰 수량이 사용량보다 크면 활성화가 된다.")
     void activeTest4(long usingCount){
         LocalDateTime start = LocalDateTime.now();
-        LocalDateTime end= start.plusSeconds(1);
+        LocalDateTime end= start.plusSeconds(2);
         Coupon coupon = new Coupon(null, "qwe", 1L, 10L, start, end);
-        Assertions.assertThatCode(()->coupon.validateCoupon(book,usingCount)).doesNotThrowAnyException();
+        Assertions.assertThatCode(()->coupon.validateCoupon(book,usingCount, start.plusSeconds(1))).doesNotThrowAnyException();
     }
 
 
@@ -81,7 +81,7 @@ class CouponTest {
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end= start.plusSeconds(1);
         Coupon coupon = new Coupon(null, "qwe", 1L, 10L, start, end);
-        Assertions.assertThatThrownBy(()->coupon.validateCoupon(book,usingCount)).isInstanceOf(CustomException.class);
+        Assertions.assertThatThrownBy(()->coupon.validateCoupon(book,usingCount, null)).isInstanceOf(CustomException.class);
     }
     @ParameterizedTest
     @ValueSource(longs = {Long.MIN_VALUE, Integer.MIN_VALUE,-1})
@@ -90,6 +90,6 @@ class CouponTest {
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end= start.plusSeconds(1);
         Coupon coupon = new Coupon(null, "qwe", 1L, null, start, end);
-        Assertions.assertThatThrownBy(()->coupon.validateCoupon(book,usingCount)).isInstanceOf(CustomException.class);
+        Assertions.assertThatThrownBy(()->coupon.validateCoupon(book,usingCount, null)).isInstanceOf(CustomException.class);
     }
 }

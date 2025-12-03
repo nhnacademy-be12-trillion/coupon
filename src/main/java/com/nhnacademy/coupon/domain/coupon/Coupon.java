@@ -30,8 +30,8 @@ public class Coupon {
         this.issueStartDate = issueStartDate;
         this.issueEndDate = issueEndDate;
     }
-    public void validateCoupon(Book book,  Long usingCount) {
-        LocalDateTime now = LocalDateTime.now();
+    public void validateCoupon(Book book, Long usingCount, LocalDateTime now) {
+
         if(!compareQuantity(usingCount) || !(issueStartDate.isBefore(now) && now.isBefore(issueEndDate))
         ){
             throw new CustomException("error.message.notUseMemberCoupon");

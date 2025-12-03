@@ -53,13 +53,13 @@ public class CouponPolicyService {
     }
     private CouponDisCountType getCouponDisCountType(CouponDiscountTypeColumn column) {
         return switch(column) {
-            case CouponDiscountTypeColumn.FIX_AMOUNT-> CouponDisCountType.FIXED_AMOUNT;
+            case CouponDiscountTypeColumn.FIXED_AMOUNT -> CouponDisCountType.FIXED_AMOUNT;
             case CouponDiscountTypeColumn.RATE-> CouponDisCountType.RATE;
         };
     }
    private CouponDiscountTypeColumn getCouponDisCountTypeColumn(CouponDisCountType discountType) {
         return switch (discountType){
-            case FIXED_AMOUNT -> CouponDiscountTypeColumn.FIX_AMOUNT;
+            case FIXED_AMOUNT -> CouponDiscountTypeColumn.FIXED_AMOUNT;
             case RATE -> CouponDiscountTypeColumn.RATE;
         };
     }
@@ -73,7 +73,7 @@ public class CouponPolicyService {
 
     public CouponPolicy getWelcomePolicy() {
         if(!couponPolicyJpaRepository.existsByName(WELCOME))
-            couponPolicyJpaRepository.save(new CouponPolicyJpaEntity(WELCOME,10_000D,50_000L,null,CouponDiscountTypeColumn.FIX_AMOUNT));
+            couponPolicyJpaRepository.save(new CouponPolicyJpaEntity(WELCOME,10_000D,50_000L,null,CouponDiscountTypeColumn.FIXED_AMOUNT));
         return create(couponPolicyJpaRepository.findByName(WELCOME).get());
     }
 }

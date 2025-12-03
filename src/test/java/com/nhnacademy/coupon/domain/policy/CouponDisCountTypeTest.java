@@ -14,8 +14,8 @@ class CouponDisCountTypeTest {
         Assertions.assertThat(CouponDisCountType.FIXED_AMOUNT.getSalePrice(100D,new Price(100L)).value()).isEqualTo(100L);
     }
     @ParameterizedTest
-    @ValueSource(doubles = {0.1,0.002})
-    @DisplayName("정량 금액할인에 소수점이 들어오면 예외를 반환한다.")
+    @ValueSource(doubles = {0.1,0.002,-1,0})
+    @DisplayName("정량 금액할인에 소수점이나 양수가아니면 예외를 반환한다.")
     void test2(double value){
         Assertions.assertThatThrownBy(()->CouponDisCountType.FIXED_AMOUNT.getSalePrice(value,new Price(100L))).isInstanceOf(CustomException.class);
     }
