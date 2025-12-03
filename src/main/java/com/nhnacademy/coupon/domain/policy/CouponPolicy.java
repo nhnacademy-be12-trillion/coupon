@@ -10,9 +10,9 @@ public abstract class CouponPolicy {
     private Long minOrderPrice;
     private Long maxDiscountPrice;
     private Double discountValue;
-    private CouponDisCountType couponDiscountType;
+    private CouponDiscountType couponDiscountType;
 
-    protected CouponPolicy(Long id,String name,Long minOrderPrice, Long maxDiscountPrice, Double discountValue, CouponDisCountType couponDiscountType) {
+    protected CouponPolicy(Long id,String name,Long minOrderPrice, Long maxDiscountPrice, Double discountValue, CouponDiscountType couponDiscountType) {
         if(discountValue==null||discountValue<=0){
             throw new CustomException("error.message.discountValueMustBePositive",new Object[]{discountValue});
         }

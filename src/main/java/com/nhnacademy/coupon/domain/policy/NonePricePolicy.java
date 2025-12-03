@@ -2,7 +2,7 @@ package com.nhnacademy.coupon.domain.policy;
 
 public class NonePricePolicy extends CouponPolicy {
     public NonePricePolicy(Long id, String name,Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
-                           CouponDisCountType couponDiscountType) {
+                           CouponDiscountType couponDiscountType) {
         super(id, name,minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
     }
 

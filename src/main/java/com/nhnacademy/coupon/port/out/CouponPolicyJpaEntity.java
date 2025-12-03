@@ -1,8 +1,10 @@
 package com.nhnacademy.coupon.port.out;
 
+import com.nhnacademy.coupon.domain.policy.CouponDiscountType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,11 +30,11 @@ public class CouponPolicyJpaEntity {
     private Double discountValue;
     private Long minOrderPrice;
     private Long maxDiscountPrice;
-    @Convert(converter = CouponDiscountTypeConverter.class)
-    private CouponDiscountTypeColumn discountType;
+    @Enumerated(EnumType.STRING)
+    private CouponDiscountType discountType;
 
-    public CouponPolicyJpaEntity(String name,Double discountValue, Long minOrderPrice, Long maxDiscountPrice,
-                                 CouponDiscountTypeColumn discountType) {
+    public CouponPolicyJpaEntity(String name, Double discountValue, Long minOrderPrice, Long maxDiscountPrice,
+                                 CouponDiscountType discountType) {
         this.name = name;
         this.discountValue = discountValue;
         this.minOrderPrice = minOrderPrice;

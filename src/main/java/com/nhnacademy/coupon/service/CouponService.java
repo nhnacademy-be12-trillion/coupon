@@ -56,7 +56,7 @@ public class CouponService {
                 .orElseThrow(() -> new CustomException("error.message.notFoundCouponId", new Object[]{couponId,memberId}));
         Coupon coupon = makerComposite.makeCoupon(couponJpaEntity);
         Long usingCount= memberCouponJpaRepository.findByUsingCouponIdWithLock(couponId);
-        coupon.validateCoupon(book, usingCount);
+        coupon.validateCoupon(book, usingCount, LocalDateTime.now());
 
         couponPolicyService.validatePolicy(coupon.getPolicyId(),new Price(book.price()));
 

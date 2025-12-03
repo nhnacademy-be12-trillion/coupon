@@ -11,13 +11,16 @@ public class CategoryCoupon extends Coupon{
     public CategoryCoupon(Long id, String name, Long policyId, Long quantity, LocalDateTime issueStartDate,
                           LocalDateTime issueEndDate,String categoryName) {
         super(id, name, policyId, quantity, issueStartDate, issueEndDate);
+        if(categoryName == null) {
+            throw new CustomException("error.message.notFoundCoupon");
+        }
         this.categoryName = categoryName;
     }
 
     @Override
-    public void validateCoupon(Book book, Long usingCount) {
-        super.validateCoupon(book, usingCount);
-        if(!book.category().equals(categoryName))
+    public void validateCoupon(Book book, Long usingCount, LocalDateTime now) {
+        super.validateCoupon(book, usingCount, now);
+        if(!categoryName.equals(book.category()))
             throw new CustomException("error.message.notFoundCoupon");
 
     }

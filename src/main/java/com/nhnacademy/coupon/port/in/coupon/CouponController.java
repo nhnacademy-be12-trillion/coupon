@@ -24,7 +24,7 @@ public class CouponController {
     }
 
     @PostMapping("/{couponId}/use")
-    public void issueCoupon(@PathVariable Long couponId, Long memberId, Book book) {
+    public void useCoupon(@PathVariable Long couponId, Long memberId, Book book) {
         couponService.useCoupon(couponId,memberId,book);
     }
     @PostMapping("")

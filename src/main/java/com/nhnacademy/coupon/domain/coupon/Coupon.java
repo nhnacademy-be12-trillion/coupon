@@ -16,6 +16,10 @@ public class Coupon {
 
     public Coupon(Long id, String name, Long policyId, Long quantity, LocalDateTime issueStartDate,
                   LocalDateTime issueEndDate) {
+        if(issueStartDate == null || issueEndDate == null) {
+            throw new CustomException("error.message.nullDate", new Object[]{issueStartDate, issueEndDate});
+        }
+
         if(issueEndDate.isBefore(issueStartDate)||issueEndDate.isEqual(issueStartDate)) {
             throw new CustomException("error.message.illegalDate",new Object[]{issueStartDate,issueEndDate});
         }
@@ -30,8 +34,8 @@ public class Coupon {
         this.issueStartDate = issueStartDate;
         this.issueEndDate = issueEndDate;
     }
-    public void validateCoupon(Book book,  Long usingCount) {
-        LocalDateTime now = LocalDateTime.now();
+    public void validateCoupon(Book book, Long usingCount, LocalDateTime now) {
+
         if(!compareQuantity(usingCount) || !(issueStartDate.isBefore(now) && now.isBefore(issueEndDate))
         ){
             throw new CustomException("error.message.notUseMemberCoupon");
@@ -43,6 +47,6 @@ public class Coupon {
             return false;
         if(quantity==null)
             return true;
-        return quantity>=usingCount;
+        return quantity>usingCount;
     }
 }

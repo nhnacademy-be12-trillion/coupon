@@ -4,7 +4,7 @@ import com.nhnacademy.coupon.error.CustomException;
 
 public class AllPricePolicy extends CouponPolicy{
     public AllPricePolicy(Long id, String name,Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
-                          CouponDisCountType couponDiscountType) {
+                          CouponDiscountType couponDiscountType) {
         super(id, name,minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
     }
 

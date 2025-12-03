@@ -3,8 +3,10 @@ package com.nhnacademy.coupon.service.maker.coupon;
 import com.nhnacademy.coupon.domain.coupon.CategoryCoupon;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+@Order(2)
 @Component
 class CategoryCouponMaker implements CouponMaker {
     @Override
@@ -24,6 +26,6 @@ class CategoryCouponMaker implements CouponMaker {
 
     @Override
     public CouponJpaEntity make(Coupon coupon) {
-        return new CouponJpaEntity((CategoryCoupon) coupon);
+        return new CouponJpaEntity(coupon);
     }
 }
