@@ -9,11 +9,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.nhnacademy.coupon.domain.policy.AllPricePolicy;
-import com.nhnacademy.coupon.domain.policy.CouponDisCountType;
+import com.nhnacademy.coupon.domain.policy.CouponDiscountType;
 import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.domain.policy.Price;
 import com.nhnacademy.coupon.error.CustomException;
-import com.nhnacademy.coupon.port.out.CouponDiscountTypeColumn;
 import com.nhnacademy.coupon.port.out.CouponPolicyJpaEntity;
 import com.nhnacademy.coupon.port.out.CouponPolicyJpaRepository;
 import java.util.List;
@@ -40,8 +39,7 @@ class CouponPolicyServiceTest {
     private static final Double DISCOUNT_VALUE = 10D;
     private static final Long MIN_ORDER_PRICE = 5000L;
     private static final Long MAX_DISCOUNT_PRICE = 10000L;
-    private static final CouponDisCountType DISCOUNT_TYPE_DOMAIN = CouponDisCountType.FIXED_AMOUNT;
-    private static final CouponDiscountTypeColumn DISCOUNT_TYPE_COLUMN = CouponDiscountTypeColumn.FIX_AMOUNT;
+    private static final CouponDiscountType DISCOUNT_TYPE_DOMAIN = CouponDiscountType.FIXED_AMOUNT;
     @InjectMocks
     private CouponPolicyService couponPolicyService;
     @Mock
@@ -55,7 +53,7 @@ class CouponPolicyServiceTest {
     void setUp() {
         // Mock 데이터 설정
         couponPolicy = new AllPricePolicy(POLICY_ID, "qwe",MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_VALUE,DISCOUNT_TYPE_DOMAIN);
-        couponPolicyJpaEntity = new CouponPolicyJpaEntity(POLICY_ID,"qwe", DISCOUNT_VALUE, MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_TYPE_COLUMN);
+        couponPolicyJpaEntity = new CouponPolicyJpaEntity(POLICY_ID,"qwe", DISCOUNT_VALUE, MIN_ORDER_PRICE, MAX_DISCOUNT_PRICE, DISCOUNT_TYPE_DOMAIN);
         pageable = PageRequest.of(0, 10);
         price= new Price(1000L);
     }
@@ -169,15 +167,12 @@ class CouponPolicyServiceTest {
     @Test
     @DisplayName("couponPolicy이 있는경우 작동된다.")
     void welcomeCouponTest(){
-        when(couponPolicyJpaRepository.existsByName(any())).thenReturn(true);
         when(couponPolicyJpaRepository.findByName(any())).thenReturn(Optional.of(couponPolicyJpaEntity));
         Assertions.assertThatCode(()->couponPolicyService.getWelcomePolicy()).doesNotThrowAnyException();
     }
     @Test
     @DisplayName("couponPolicy이 없어도 저장되고 작동된다.")
     void welcomeCouponTest1(){
-        when(couponPolicyJpaRepository.existsByName(any())).thenReturn(false);
-        when(couponPolicyJpaRepository.save(any())).thenReturn(couponPolicyJpaEntity);
         when(couponPolicyJpaRepository.findByName(any())).thenReturn(Optional.of(couponPolicyJpaEntity));
         Assertions.assertThatCode(()->couponPolicyService.getWelcomePolicy()).doesNotThrowAnyException();
     }

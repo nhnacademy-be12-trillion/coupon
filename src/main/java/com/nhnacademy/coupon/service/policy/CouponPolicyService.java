@@ -1,10 +1,8 @@
 package com.nhnacademy.coupon.service.policy;
 
-import com.nhnacademy.coupon.domain.policy.CouponDisCountType;
 import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.domain.policy.Price;
 import com.nhnacademy.coupon.error.CustomException;
-import com.nhnacademy.coupon.port.out.CouponDiscountTypeColumn;
 import com.nhnacademy.coupon.port.out.CouponPolicyJpaEntity;
 import com.nhnacademy.coupon.port.out.CouponPolicyJpaRepository;
 import com.nhnacademy.coupon.service.CouponPolicyComposite;
@@ -46,22 +44,10 @@ public class CouponPolicyService {
         couponPolicyJpaRepository.deleteById(policyId);
     }
     private CouponPolicy create(CouponPolicyJpaEntity entity) {
-        return CouponPolicyComposite.couponPolicy(entity.getId(), entity.getName(),entity.getDiscountValue(), entity.getMinOrderPrice(), entity.getMaxDiscountPrice(),getCouponDisCountType(entity.getDiscountType()));
+        return CouponPolicyComposite.couponPolicy(entity.getId(), entity.getName(),entity.getDiscountValue(), entity.getMinOrderPrice(), entity.getMaxDiscountPrice(),entity.getDiscountType());
     }
     private CouponPolicyJpaEntity createCouponPolicyJpaEntity(CouponPolicy couponPolicy) {
-        return new CouponPolicyJpaEntity(couponPolicy.getId(),couponPolicy.getName(),couponPolicy.getDiscountValue(),couponPolicy.getMinOrderPrice(),couponPolicy.getMaxDiscountPrice(),getCouponDisCountTypeColumn(couponPolicy.getCouponDiscountType()));
-    }
-    private CouponDisCountType getCouponDisCountType(CouponDiscountTypeColumn column) {
-        return switch(column) {
-            case CouponDiscountTypeColumn.FIX_AMOUNT-> CouponDisCountType.FIXED_AMOUNT;
-            case CouponDiscountTypeColumn.RATE-> CouponDisCountType.RATE;
-        };
-    }
-   private CouponDiscountTypeColumn getCouponDisCountTypeColumn(CouponDisCountType discountType) {
-        return switch (discountType){
-            case FIXED_AMOUNT -> CouponDiscountTypeColumn.FIX_AMOUNT;
-            case RATE -> CouponDiscountTypeColumn.RATE;
-        };
+        return new CouponPolicyJpaEntity(couponPolicy.getId(),couponPolicy.getName(),couponPolicy.getDiscountValue(),couponPolicy.getMinOrderPrice(),couponPolicy.getMaxDiscountPrice(),couponPolicy.getCouponDiscountType());
     }
 
     public void validatePolicy(Long policyId, Price price) {
@@ -72,8 +58,8 @@ public class CouponPolicyService {
     }
 
     public CouponPolicy getWelcomePolicy() {
-        if(!couponPolicyJpaRepository.existsByName(WELCOME))
-            couponPolicyJpaRepository.save(new CouponPolicyJpaEntity(WELCOME,10_000D,50_000L,null,CouponDiscountTypeColumn.FIX_AMOUNT));
-        return create(couponPolicyJpaRepository.findByName(WELCOME).get());
+        return couponPolicyJpaRepository.findByName(WELCOME)
+                    .map(this::create)
+                .orElseThrow(() -> new CustomException("error.message.couponPolicy.notFound", new Object[]{WELCOME}));
     }
 }

@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 import com.nhnacademy.coupon.domain.Book;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.domain.policy.AllPricePolicy;
-import com.nhnacademy.coupon.domain.policy.CouponDisCountType;
+import com.nhnacademy.coupon.domain.policy.CouponDiscountType;
 import com.nhnacademy.coupon.domain.policy.Price;
 import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.port.out.MemberCouponJpaEntity;
@@ -138,12 +138,12 @@ class CouponServiceTest {
         given(couponJpaRepository.findById(any())).willReturn(Optional.of(mockCouponEntity));
         given(makerComposite.makeCoupon(mockCouponEntity)).willReturn(mockCoupon);
         given(memberCouponJpaRepository.findByUsingCouponIdWithLock(any())).willReturn(0L);
-        doNothing().when(mockCoupon).validateCoupon(any(Book.class), anyLong());
+        doNothing().when(mockCoupon).validateCoupon(any(Book.class), anyLong(), any());
         doNothing().when(couponPolicyService).validatePolicy(anyLong(), any(Price.class));
         given(memberCouponJpaRepository.findByCouponIdAndMemberId(any(), anyLong()))
                 .willReturn(Optional.of(mockMemberCouponEntity));
 
-        Assertions.assertThatCode(()->couponService.useCoupon(TEST_COUPON_ID, TEST_MEMBER_ID, mockBook));
+        Assertions.assertThatCode(()->couponService.useCoupon(TEST_COUPON_ID, TEST_MEMBER_ID, mockBook)).doesNotThrowAnyException();
     }
 
     @Test
@@ -199,7 +199,7 @@ class CouponServiceTest {
     @DisplayName("월켐 쿠폰 저장")
     void issueWelcomeCoupon() {
         when(couponPolicyService.getWelcomePolicy()).thenReturn(new AllPricePolicy(1L,"welcome",500L,1000L,5000D,
-                CouponDisCountType.FIXED_AMOUNT));
+                CouponDiscountType.FIXED_AMOUNT));
         given(couponJpaRepository.save(any())).willReturn(mockCouponEntity);
         given(memberCouponJpaRepository.save(any())).willReturn(mockMemberCouponEntity);
         Assertions.assertThatCode(()->couponService.issueWelcomeCoupon(TEST_MEMBER_ID)).doesNotThrowAnyException();

@@ -38,23 +38,14 @@ public class CouponJpaEntity {
         this.quantity = coupon.getQuantity();
         this.issueStartDate = coupon.getIssueStartDate();
         this.issueEndDate = coupon.getIssueEndDate();
+        setValue(coupon);
     }
-    public CouponJpaEntity(CategoryCoupon coupon) {
-        this.id = coupon.getId();
-        this.name = coupon.getName();
-        this.policyId = coupon.getPolicyId();
-        this.quantity = coupon.getQuantity();
-        this.issueStartDate = coupon.getIssueStartDate();
-        this.issueEndDate = coupon.getIssueEndDate();
-        this.categoryName = coupon.getCategoryName();
-    }
-    public CouponJpaEntity(NameCoupon coupon) {
-        this.id = coupon.getId();
-        this.name = coupon.getName();
-        this.policyId = coupon.getPolicyId();
-        this.quantity = coupon.getQuantity();
-        this.issueStartDate = coupon.getIssueStartDate();
-        this.issueEndDate = coupon.getIssueEndDate();
-        this.bookName = coupon.getBookName();
+    private void setValue(Coupon coupon) {
+        if(coupon instanceof NameCoupon nameCoupon) {
+            this.bookName = nameCoupon.getBookName();
+        }
+        if(coupon instanceof CategoryCoupon categoryCoupon) {
+            this.categoryName = categoryCoupon.getCategoryName();
+        }
     }
 }

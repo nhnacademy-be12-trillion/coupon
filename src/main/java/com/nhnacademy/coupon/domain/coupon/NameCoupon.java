@@ -11,12 +11,15 @@ public class NameCoupon extends Coupon{
     public NameCoupon(Long id, String name, Long policyId, Long quantity, LocalDateTime issueStartDate,
                       LocalDateTime issueEndDate,String bookName) {
         super(id, name, policyId, quantity, issueStartDate, issueEndDate);
+        if(bookName == null) {
+            throw new CustomException("error.message.notFoundCoupon");
+        }
         this.bookName = bookName;
     }
 
     @Override
-    public void validateCoupon(Book book, Long usingCount) {
-        super.validateCoupon(book, usingCount);
+    public void validateCoupon(Book book, Long usingCount, LocalDateTime now) {
+        super.validateCoupon(book, usingCount, now);
         if(!book.name().equals(bookName))
             throw new CustomException("error.message.notFoundCoupon");
     }

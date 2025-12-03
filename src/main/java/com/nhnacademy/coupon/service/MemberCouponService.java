@@ -18,7 +18,7 @@ public class MemberCouponService {
     public Collection<MemberCoupon> findAll(Long memberId, Pageable pageable) {
         return repository.findAllByMemberId(memberId,pageable)
                 .stream()
-                .map(entity->new MemberCoupon(entity.getId(),entity.getCouponId(),entity.getCouponId(),entity.isUse(),entity.getLastModifiedDate()))
+                .map(entity->new MemberCoupon(entity.getId(),entity.getMemberId(),entity.getCouponId(),entity.isUse(),entity.getLastModifiedDate()))
                 .toList();
     }
     @Transactional

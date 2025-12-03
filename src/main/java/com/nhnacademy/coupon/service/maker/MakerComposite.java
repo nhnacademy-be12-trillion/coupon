@@ -16,7 +16,7 @@ public class MakerComposite {
     public Coupon makeCoupon(CouponJpaEntity entity){
         return couponMakers.stream()
                 .filter(couponMaker -> couponMaker.match(entity))
-                .findAny()
+                .findFirst()
                 .orElseThrow(()->new CustomException("error.message.notFoundCouponMaker"))
                 .make(entity);
     }
@@ -24,7 +24,7 @@ public class MakerComposite {
     public CouponJpaEntity makeCouponEntity(Coupon coupon) {
         return couponMakers.stream()
                 .filter(couponMaker -> couponMaker.match(coupon))
-                .findAny()
+                .findFirst()
                 .orElseThrow(()->new CustomException("error.message.notFoundCouponMaker"))
                 .make(coupon);
     }

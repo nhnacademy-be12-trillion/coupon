@@ -4,7 +4,7 @@ import com.nhnacademy.coupon.error.CustomException;
 
 public class AllPricePolicy extends CouponPolicy{
     public AllPricePolicy(Long id, String name,Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
-                          CouponDisCountType couponDiscountType) {
+                          CouponDiscountType couponDiscountType) {
         super(id, name,minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
     }
 
@@ -14,7 +14,7 @@ public class AllPricePolicy extends CouponPolicy{
     }
 
     @Override
-    protected Price getSalePrice(Price price) {
+    protected Price getDiscountAmount(Price price) {
         if(price.value()<getMinOrderPrice()) {
             throw new CustomException("error.message.minOrderPrice",new Object[]{price.value(),getMinOrderPrice()});
         }
