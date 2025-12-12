@@ -16,12 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/policies")
+@RequestMapping("/admin/coupon-policies")
 public class CouponPolicyController {
     private final CouponPolicyService service;
     @GetMapping()
     public List<CouponPolicy> getCouponPolicyResponse(Pageable pageable){
         return service.getCouponPolicys(pageable);
+    }
+    @GetMapping("/{coupon-policy-id}")
+    public CouponPolicy getCouponPolicyResponse(@PathVariable("coupon-policy-id") Long id){
+        return service.getCouponPolicy(id);
     }
     @PostMapping
     public void createCouponPolicy(@RequestBody PolicyCreateRequest request) {
