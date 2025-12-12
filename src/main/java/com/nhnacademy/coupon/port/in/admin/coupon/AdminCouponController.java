@@ -1,8 +1,12 @@
 package com.nhnacademy.coupon.port.in.admin.coupon;
 
+import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.port.in.admin.coupon.maker.RequestMakerComposite;
 import com.nhnacademy.coupon.service.CouponService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,7 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminCouponController {
     private final CouponService couponService;
     private final RequestMakerComposite requestMakerComposite;
-
+    @GetMapping
+    public List<Coupon> getCoupons(Pageable pageable){
+        return couponService.findAll(pageable)
+                .stream()
+                .toList();
+    }
 
     @PostMapping
     public void createCoupon(@RequestBody CouponRequestImpl couponRequestImpl) {
