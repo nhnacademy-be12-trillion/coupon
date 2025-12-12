@@ -6,17 +6,19 @@ import lombok.Getter;
 @Getter
 public abstract class CouponPolicy {
     private Long id;
+    private String name;
     private Long minOrderPrice;
     private Long maxDiscountPrice;
     private Double discountValue;
-    private CouponDisCountType couponDiscountType;
+    private CouponDiscountType couponDiscountType;
 
-    protected CouponPolicy(Long id,Long minOrderPrice, Long maxDiscountPrice, Double discountValue, CouponDisCountType couponDiscountType) {
+    protected CouponPolicy(Long id,String name,Long minOrderPrice, Long maxDiscountPrice, Double discountValue, CouponDiscountType couponDiscountType) {
         if(discountValue==null||discountValue<=0){
             throw new CustomException("error.message.discountValueMustBePositive",new Object[]{discountValue});
         }
 
         this.id = id;
+        this.name = name;
         this.minOrderPrice = minOrderPrice;
         this.maxDiscountPrice = maxDiscountPrice;
         this.discountValue = discountValue;
@@ -26,7 +28,7 @@ public abstract class CouponPolicy {
     public abstract boolean match();
 
     public Price getApplyCouponPrice(Price price){
-        return new Price(price.value()-getSalePrice(price).value());
+        return new Price(price.value()- getDiscountAmount(price).value());
     }
-    protected abstract Price getSalePrice(Price price);
+    protected abstract Price getDiscountAmount(Price price);
 }

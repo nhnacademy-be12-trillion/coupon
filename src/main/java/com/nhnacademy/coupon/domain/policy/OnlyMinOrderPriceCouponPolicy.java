@@ -3,9 +3,9 @@ package com.nhnacademy.coupon.domain.policy;
 import com.nhnacademy.coupon.error.CustomException;
 
 public class OnlyMinOrderPriceCouponPolicy extends CouponPolicy{
-    public OnlyMinOrderPriceCouponPolicy(Long id, Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
-                                         CouponDisCountType couponDiscountType) {
-        super(id, minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
+    public OnlyMinOrderPriceCouponPolicy(Long id, String name,Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
+                                         CouponDiscountType couponDiscountType) {
+        super(id, name,minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
     }
 
     @Override
@@ -14,7 +14,7 @@ public class OnlyMinOrderPriceCouponPolicy extends CouponPolicy{
     }
 
     @Override
-    protected Price getSalePrice(Price price) {
+    protected Price getDiscountAmount(Price price) {
         if(price.value()<getMinOrderPrice()) {
             throw new CustomException("error.message.minOrderPrice",new Object[]{price.value(),getMinOrderPrice()});
         }

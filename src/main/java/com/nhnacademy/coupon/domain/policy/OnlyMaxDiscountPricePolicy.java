@@ -1,9 +1,9 @@
 package com.nhnacademy.coupon.domain.policy;
 
-public class OnlyMaxDisCountPricePolicy extends CouponPolicy{
-    public OnlyMaxDisCountPricePolicy(Long id, Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
-                                      CouponDisCountType couponDiscountType) {
-        super(id, minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
+public class OnlyMaxDiscountPricePolicy extends CouponPolicy{
+    public OnlyMaxDiscountPricePolicy(Long id, String name, Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
+                                      CouponDiscountType couponDiscountType) {
+        super(id, name,minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
     }
 
     @Override
@@ -12,7 +12,7 @@ public class OnlyMaxDisCountPricePolicy extends CouponPolicy{
     }
 
     @Override
-    protected Price getSalePrice(Price price) {
+    protected Price getDiscountAmount(Price price) {
         Price salePrice = getCouponDiscountType().getSalePrice(getDiscountValue(), price);
         if(salePrice.value()<getMaxDiscountPrice()){
             return salePrice;

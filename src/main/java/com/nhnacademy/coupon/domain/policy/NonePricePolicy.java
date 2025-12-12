@@ -1,9 +1,9 @@
 package com.nhnacademy.coupon.domain.policy;
 
 public class NonePricePolicy extends CouponPolicy {
-    public NonePricePolicy(Long id, Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
-                           CouponDisCountType couponDiscountType) {
-        super(id, minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
+    public NonePricePolicy(Long id, String name,Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
+                           CouponDiscountType couponDiscountType) {
+        super(id, name,minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
     }
 
     @Override
@@ -12,7 +12,7 @@ public class NonePricePolicy extends CouponPolicy {
     }
 
     @Override
-    protected Price getSalePrice(Price price) {
+    protected Price getDiscountAmount(Price price) {
         return getCouponDiscountType().getSalePrice(getDiscountValue(), price);
     }
 }

@@ -3,6 +3,7 @@ package com.nhnacademy.coupon.port.in.membercoupon;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.service.MemberCoupon;
 import com.nhnacademy.coupon.service.MemberCouponService;
@@ -15,6 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +29,8 @@ class MemberCouponControllerTest {
     private MemberCouponService service;
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
     @Test
     @DisplayName("아이디가 없으면 빈 리스트가 나온다.")
     void testFindAllByMemberId() throws Exception {
@@ -56,7 +60,10 @@ class MemberCouponControllerTest {
     @DisplayName("저장되면 200 반환.")
     void saveAll1() throws Exception {
         Mockito.doNothing().when(service).save(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/members/{memberId}/coupons",1L))
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/members/{memberId}/coupons",1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new MemberCouponCreateRequest(1L)))
+                )
                 .andExpect(status().isOk());
     }
 }

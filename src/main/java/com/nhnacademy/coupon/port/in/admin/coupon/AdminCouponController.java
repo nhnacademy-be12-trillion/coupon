@@ -22,7 +22,7 @@ public class AdminCouponController {
     public void createCoupon(@RequestBody CouponRequestImpl couponRequestImpl) {
         couponService.save(requestMakerComposite.make(null, couponRequestImpl));
     }
-    @PutMapping("{couponId}")
+    @PutMapping("/{couponId}")
     public void updateCoupon(@PathVariable Long couponId, @RequestBody CouponRequestImpl couponRequestImpl) {
         couponService.update(requestMakerComposite.make(couponId, couponRequestImpl));
     }
