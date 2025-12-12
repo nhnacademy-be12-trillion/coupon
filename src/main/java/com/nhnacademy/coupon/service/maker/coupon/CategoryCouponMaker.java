@@ -1,6 +1,6 @@
 package com.nhnacademy.coupon.service.maker.coupon;
 
-import com.nhnacademy.coupon.domain.coupon.CategoryCoupon;
+import com.nhnacademy.coupon.domain.coupon.CategoryIdCoupon;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
 import org.springframework.core.annotation.Order;
@@ -11,17 +11,17 @@ import org.springframework.stereotype.Component;
 class CategoryCouponMaker implements CouponMaker {
     @Override
     public boolean match(CouponJpaEntity couponJpaEntity) {
-        return couponJpaEntity.getCategoryName()!=null;
+        return couponJpaEntity.getCategoryId()!=null;
     }
 
     @Override
     public Coupon make(CouponJpaEntity entity) {
-        return new CategoryCoupon(entity.getId(), entity.getName(),entity.getPolicyId(),entity.getQuantity(),entity.getIssueStartDate(),entity.getIssueEndDate(),entity.getCategoryName());
+        return new CategoryIdCoupon(entity.getId(), entity.getName(),entity.getPolicyId(),entity.getQuantity(),entity.getIssueStartDate(),entity.getIssueEndDate(),entity.getCategoryId());
     }
 
     @Override
     public boolean match(Coupon coupon) {
-        return CategoryCoupon.class.isAssignableFrom(coupon.getClass());
+        return CategoryIdCoupon.class.isAssignableFrom(coupon.getClass());
     }
 
     @Override

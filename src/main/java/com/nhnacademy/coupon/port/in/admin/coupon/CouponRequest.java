@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 public interface CouponRequest {
 
-    String categoryName();
+    Long categoryId();
 
-    String bookName();
+    Long bookId();
 
     LocalDateTime issueEndDate();
 

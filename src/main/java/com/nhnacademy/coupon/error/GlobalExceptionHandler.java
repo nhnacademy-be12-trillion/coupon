@@ -5,6 +5,7 @@ import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -24,4 +25,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getStatusCode())
                 .body(new CustomErrorResponse(message,request.getRequestURI()));
     }
+    @ExceptionHandler(Exception.class)
+    ResponseEntity<CustomErrorResponse> handleException(Exception e, HttpServletRequest request) {
+        log.error(e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new CustomErrorResponse("예상치 못한 에러",request.getRequestURI())
+        );
+    }
+
+
 }

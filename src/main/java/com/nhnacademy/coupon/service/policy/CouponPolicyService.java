@@ -62,4 +62,10 @@ public class CouponPolicyService {
                     .map(this::create)
                 .orElseThrow(() -> new CustomException("error.message.couponPolicy.notFound", new Object[]{WELCOME}));
     }
+
+    public CouponPolicy getCouponPolicy(Long id) {
+        return couponPolicyJpaRepository.findById(id)
+                .map(this::create)
+                .orElseThrow(() -> new CustomException("error.message.couponPolicy.notFound", new Object[]{id}));
+    }
 }

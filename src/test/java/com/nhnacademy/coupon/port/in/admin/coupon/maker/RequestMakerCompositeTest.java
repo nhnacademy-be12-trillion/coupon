@@ -1,8 +1,8 @@
 package com.nhnacademy.coupon.port.in.admin.coupon.maker;
 
-import com.nhnacademy.coupon.domain.coupon.CategoryCoupon;
+import com.nhnacademy.coupon.domain.coupon.BookIdCoupon;
+import com.nhnacademy.coupon.domain.coupon.CategoryIdCoupon;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
-import com.nhnacademy.coupon.domain.coupon.NameCoupon;
 import java.time.LocalDateTime;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -46,9 +46,9 @@ class RequestMakerCompositeTest {
                         LocalDateTime.now(),
                         LocalDateTime.now().plusSeconds(1),
                         null,
-                        "qwe"
+                        1L
                 ))
-        ).isExactlyInstanceOf(CategoryCoupon.class);
+        ).isExactlyInstanceOf(CategoryIdCoupon.class);
     }
     @Test
     @DisplayName("책이름이 있으면, 이름쿠폰을 가리킨다.")
@@ -60,9 +60,9 @@ class RequestMakerCompositeTest {
                         1L,
                         LocalDateTime.now(),
                         LocalDateTime.now().plusSeconds(1),
-                        "qwe",
+                        1L,
                         null
                 ))
-        ).isExactlyInstanceOf(NameCoupon.class);
+        ).isExactlyInstanceOf(BookIdCoupon.class);
     }
 }

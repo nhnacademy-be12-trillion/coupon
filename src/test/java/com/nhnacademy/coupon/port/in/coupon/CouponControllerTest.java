@@ -14,9 +14,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(controllers = CouponController.class)
@@ -31,7 +31,7 @@ class CouponControllerTest {
     @DisplayName("없으면 빈리스트를 반환한다.")
     void test() throws Exception {
         Mockito.when(couponService.findAll(any())).thenReturn(List.of());
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/coupons"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/coupons"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
     }
@@ -41,7 +41,7 @@ class CouponControllerTest {
         Mockito.when(couponService.findAll(any())).thenReturn(List.of(
                 new Coupon(1L,"qwe",1L,1L, LocalDateTime.now(),LocalDateTime.now().plusDays(1L))
         ));
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/coupons"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/coupons"))
                 .andExpect(status().isOk());
     }
 }

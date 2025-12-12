@@ -71,7 +71,7 @@ class CouponServiceTest {
         mockCouponEntity = mock(CouponJpaEntity.class);
         mockMemberCouponEntity = mock(MemberCouponJpaEntity.class);
 
-        mockBook = new Book(10000L,"ㅂㅈㄷ","ㅂㅈㄷ");
+        mockBook = new Book(10000L,1L,1L);
     }
 
     @Test

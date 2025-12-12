@@ -1,6 +1,7 @@
 package com.nhnacademy.coupon.port.in.membercoupon;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,9 +18,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,7 +36,7 @@ class MemberCouponControllerTest {
     @DisplayName("아이디가 없으면 빈 리스트가 나온다.")
     void testFindAllByMemberId() throws Exception {
         Mockito.when(service.findAll(any(),any())).thenReturn(List.of());
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/members/{memberId}/coupons",1L))
+        mockMvc.perform(MockMvcRequestBuilders.get("/members/{memberId}/coupons",1L))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
 
@@ -46,21 +47,23 @@ class MemberCouponControllerTest {
         Mockito.when(service.findAll(any(),any())).thenReturn(List.of(
                 new MemberCoupon(1L,1L,1L,false, LocalDateTime.now())
         ));
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/members/{memberId}/coupons",1L))
+        mockMvc.perform(MockMvcRequestBuilders.get("/members/{memberId}/coupons",1L))
                 .andExpect(status().isOk());
     }
     @Test
     @DisplayName("저장 안되면 400 반환.")
     void saveAll() throws Exception {
         Mockito.doThrow(new CustomException("qwe")).when(service).save(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/members/{memberId}/coupons",1L))
+        mockMvc.perform(post("/members/{memberId}/coupons",1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new MemberCouponCreateRequest(1L))))
                 .andExpect(status().isBadRequest());
     }
     @Test
     @DisplayName("저장되면 200 반환.")
     void saveAll1() throws Exception {
         Mockito.doNothing().when(service).save(any());
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/members/{memberId}/coupons",1L)
+        mockMvc.perform(post("/members/{memberId}/coupons",1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new MemberCouponCreateRequest(1L)))
                 )
