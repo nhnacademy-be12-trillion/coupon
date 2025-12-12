@@ -1,8 +1,8 @@
 package com.nhnacademy.coupon.port.out.coupon;
 
-import com.nhnacademy.coupon.domain.coupon.CategoryCoupon;
+import com.nhnacademy.coupon.domain.coupon.BookIdCoupon;
+import com.nhnacademy.coupon.domain.coupon.CategoryIdCoupon;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
-import com.nhnacademy.coupon.domain.coupon.NameCoupon;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,8 +28,8 @@ public class CouponJpaEntity {
     private Long quantity;
     private LocalDateTime issueStartDate;
     private LocalDateTime issueEndDate;
-    private String categoryName;
-    private String bookName;
+    private Long categoryId;
+    private Long bookId;
 
     public CouponJpaEntity(Coupon coupon) {
         this.id = coupon.getId();
@@ -41,11 +41,11 @@ public class CouponJpaEntity {
         setValue(coupon);
     }
     private void setValue(Coupon coupon) {
-        if(coupon instanceof NameCoupon nameCoupon) {
-            this.bookName = nameCoupon.getBookName();
+        if(coupon instanceof BookIdCoupon bookIdCoupon) {
+            this.bookId = bookIdCoupon.getBookId();
         }
-        if(coupon instanceof CategoryCoupon categoryCoupon) {
-            this.categoryName = categoryCoupon.getCategoryName();
+        if(coupon instanceof CategoryIdCoupon categoryIdCoupon) {
+            this.categoryId = categoryIdCoupon.getCategoryId();
         }
     }
 }

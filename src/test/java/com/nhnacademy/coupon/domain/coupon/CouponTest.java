@@ -16,7 +16,7 @@ class CouponTest {
 
     @BeforeEach
     void setUp() {
-        book= new Book(1L,"qwe", "qwe");
+        book= new Book(1L,1L, 1L);
     }
     @Test
     @DisplayName("끝나는 시간이 시작시간보다 앞이면 예외반환")
