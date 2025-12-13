@@ -1,0 +1,44 @@
+package com.nhnacademy.coupon.port.in.admin.policy;
+
+import com.nhnacademy.coupon.domain.policy.CouponPolicy;
+import com.nhnacademy.coupon.service.policy.CouponPolicyService;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/admin/coupon-policies")
+public class CouponPolicyController {
+    private final CouponPolicyService service;
+    @GetMapping()
+    public List<CouponPolicy> getCouponPolicyResponse(Pageable pageable){
+        return service.getCouponPolicys(pageable);
+    }
+    @GetMapping("/{coupon-policy-id}")
+    public CouponPolicy getCouponPolicyResponse(@PathVariable("coupon-policy-id") Long id){
+        return service.getCouponPolicy(id);
+    }
+    @PostMapping
+    public void createCouponPolicy(@RequestBody PolicyCreateRequest request) {
+        service.save(request.createCouponPolicy());
+    }
+    @PutMapping("{policyId}")
+    public void updateCouponPolicy(@PathVariable Long policyId,@RequestBody PolicyUpdateRequest request) {
+        service.update(request.createCouponPolicy(policyId));
+    }
+    //정책 삭제시 주문이 있는경우는 삭제 하면 안됨.
+    //
+    @DeleteMapping("{policyId}")
+    public void deleteCouponPolicy(@PathVariable Long policyId) {
+        service.delete(policyId);
+    }
+}
