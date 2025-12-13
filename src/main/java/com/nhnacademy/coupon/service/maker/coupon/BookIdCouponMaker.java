@@ -6,9 +6,9 @@ import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Order(1)
+@Order(2)
 @Component
-class NameCouponMaker implements CouponMaker {
+class BookIdCouponMaker implements CouponMaker {
     @Override
     public boolean match(CouponJpaEntity couponJpaEntity) {
         return couponJpaEntity.getBookId()!=null;
