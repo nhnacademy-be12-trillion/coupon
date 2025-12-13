@@ -13,7 +13,7 @@ public class OnlyMaxDiscountPricePolicy extends CouponPolicy{
 
     @Override
     protected Price getDiscountAmount(Price price) {
-        Price salePrice = getCouponDiscountType().getSalePrice(getDiscountValue(), price);
+        Price salePrice = getCouponDiscountType().getDiscountAmount(getDiscountValue(), price);
         if(salePrice.value()<getMaxDiscountPrice()){
             return salePrice;
         }

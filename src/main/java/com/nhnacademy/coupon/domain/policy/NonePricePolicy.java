@@ -13,6 +13,6 @@ public class NonePricePolicy extends CouponPolicy {
 
     @Override
     protected Price getDiscountAmount(Price price) {
-        return getCouponDiscountType().getSalePrice(getDiscountValue(), price);
+        return getCouponDiscountType().getDiscountAmount(getDiscountValue(), price);
     }
 }

@@ -19,7 +19,7 @@ public class AllPricePolicy extends CouponPolicy{
             throw new CustomException("error.message.minOrderPrice",new Object[]{price.value(),getMinOrderPrice()});
         }
 
-        Price salePrice = getCouponDiscountType().getSalePrice(getDiscountValue(), price);
+        Price salePrice = getCouponDiscountType().getDiscountAmount(getDiscountValue(), price);
         if(salePrice.value()<getMaxDiscountPrice()){
             return salePrice;
         }
