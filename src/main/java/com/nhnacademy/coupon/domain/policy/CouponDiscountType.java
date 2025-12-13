@@ -20,7 +20,7 @@ public enum CouponDiscountType {
     CouponDiscountType(ToLongBiFunction<Double,Long> function) {
         this.function = function;
     }
-    public Price getSalePrice(Double discountValue,Price price) {
+    public Price getDiscountAmount(Double discountValue, Price price) {
        return new Price(function.applyAsLong(discountValue, price.value()));
     }
 }

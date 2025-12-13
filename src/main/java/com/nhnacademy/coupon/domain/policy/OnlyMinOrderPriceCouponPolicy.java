@@ -18,7 +18,6 @@ public class OnlyMinOrderPriceCouponPolicy extends CouponPolicy{
         if(price.value()<getMinOrderPrice()) {
             throw new CustomException("error.message.minOrderPrice",new Object[]{price.value(),getMinOrderPrice()});
         }
-
-        return getCouponDiscountType().getSalePrice(getDiscountValue(), price);
+        return getCouponDiscountType().getDiscountAmount(getDiscountValue(), price);
     }
 }
