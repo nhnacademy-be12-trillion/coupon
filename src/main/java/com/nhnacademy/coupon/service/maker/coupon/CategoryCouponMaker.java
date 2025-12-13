@@ -6,7 +6,7 @@ import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Order(2)
+@Order(1)
 @Component
 class CategoryCouponMaker implements CouponMaker {
     @Override
