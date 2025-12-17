@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nhnacademy.coupon.domain.coupon.Coupon;
+import com.nhnacademy.coupon.domain.policy.TestCouponPolicy;
 import com.nhnacademy.coupon.service.CouponService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,4 +45,23 @@ class CouponControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/coupons"))
                 .andExpect(status().isOk());
     }
+    @Test
+    @DisplayName("정책이 있으면 총판매가격을 알려준다.")
+    void test2() throws Exception {
+        Mockito.when(couponService.getCouponPolicy(1L)).thenReturn(new TestCouponPolicy());
+        mockMvc.perform(MockMvcRequestBuilders.get("/coupons/1")
+                        .header("X-Member-Id",1L)
+                        .param("price",String.valueOf(TestCouponPolicy.MIN_ORDER_PRICE+10_000)))
+                .andExpect(status().isOk());
+    }
+    @Test
+    @DisplayName("할인이 안되면 400 반환.")
+    void test3() throws Exception {
+        Mockito.when(couponService.getCouponPolicy(1L)).thenReturn(new TestCouponPolicy());
+        mockMvc.perform(MockMvcRequestBuilders.get("/coupons/1")
+                        .header("X-Member-Id",1L)
+                        .param("price",String.valueOf(TestCouponPolicy.MIN_ORDER_PRICE-100)))
+                .andExpect(status().isBadRequest());
+    }
+
 }
