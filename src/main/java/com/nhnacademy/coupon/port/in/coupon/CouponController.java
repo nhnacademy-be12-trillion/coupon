@@ -2,6 +2,7 @@ package com.nhnacademy.coupon.port.in.coupon;
 
 import com.nhnacademy.coupon.domain.Book;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
+import com.nhnacademy.coupon.domain.policy.Price;
 import com.nhnacademy.coupon.infra.MemberId;
 import com.nhnacademy.coupon.service.CouponService;
 import java.util.Collection;
@@ -23,6 +24,10 @@ public class CouponController {
     @GetMapping("")
     public Collection<Coupon> getCouponResponses(Pageable pageable){
         return couponService.findAll(pageable);
+    }
+    @GetMapping("/{coupon-id}")
+    public Price getSalePrice(@PathVariable("coupon-id") Long couponId, @MemberId Long memberId, Book book) {
+        return couponService.getCouponPolicy(couponId).getApplyCouponPrice(book.getPrice());
     }
 
     @PostMapping("/{coupon-id}/use")

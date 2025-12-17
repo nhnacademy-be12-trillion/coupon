@@ -30,21 +30,3 @@ class CouponPolicyTest {
                 .doesNotThrowAnyException();
     }
 }
-
-class TestCouponPolicy extends CouponPolicy {
-
-    protected TestCouponPolicy(Long id, String name,Long minOrderPrice, Long maxDiscountPrice, Double discountValue,
-                               CouponDiscountType couponDiscountType) {
-        super(id, name,minOrderPrice, maxDiscountPrice, discountValue, couponDiscountType);
-    }
-
-    @Override
-    public boolean match() {
-        return false;
-    }
-
-    @Override
-    protected Price getDiscountAmount(Price price) {
-        return null;
-    }
-}
