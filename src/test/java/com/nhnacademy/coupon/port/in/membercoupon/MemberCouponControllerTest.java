@@ -26,6 +26,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(MemberCouponController.class)
 class MemberCouponControllerTest {
+    public static final String PATH = "/member-coupons";
+    public static final String X_MEMBER_ID = "X-Member-Id";
     @MockitoBean
     private MemberCouponService service;
     @Autowired
@@ -36,7 +38,8 @@ class MemberCouponControllerTest {
     @DisplayName("아이디가 없으면 빈 리스트가 나온다.")
     void testFindAllByMemberId() throws Exception {
         Mockito.when(service.findAll(any(),any())).thenReturn(List.of());
-        mockMvc.perform(MockMvcRequestBuilders.get("/members/{memberId}/coupons",1L))
+        mockMvc.perform(MockMvcRequestBuilders.get(PATH)
+                        .header(X_MEMBER_ID,1L))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
 
@@ -47,14 +50,16 @@ class MemberCouponControllerTest {
         Mockito.when(service.findAll(any(),any())).thenReturn(List.of(
                 new MemberCoupon(1L,1L,1L,false, LocalDateTime.now())
         ));
-        mockMvc.perform(MockMvcRequestBuilders.get("/members/{memberId}/coupons",1L))
+        mockMvc.perform(MockMvcRequestBuilders.get(PATH)
+                .header(X_MEMBER_ID,1L))
                 .andExpect(status().isOk());
     }
     @Test
     @DisplayName("저장 안되면 400 반환.")
     void saveAll() throws Exception {
         Mockito.doThrow(new CustomException("qwe")).when(service).save(any());
-        mockMvc.perform(post("/members/{memberId}/coupons",1L)
+        mockMvc.perform(post(PATH)
+                        .header(X_MEMBER_ID,1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new MemberCouponCreateRequest(1L))))
                 .andExpect(status().isBadRequest());
@@ -63,7 +68,8 @@ class MemberCouponControllerTest {
     @DisplayName("저장되면 200 반환.")
     void saveAll1() throws Exception {
         Mockito.doNothing().when(service).save(any());
-        mockMvc.perform(post("/members/{memberId}/coupons",1L)
+        mockMvc.perform(post(PATH)
+                        .header(X_MEMBER_ID,1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new MemberCouponCreateRequest(1L)))
                 )

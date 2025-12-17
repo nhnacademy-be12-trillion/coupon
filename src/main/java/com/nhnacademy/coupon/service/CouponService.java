@@ -78,4 +78,11 @@ public class CouponService {
         CouponJpaEntity entity= couponJpaRepository.save(new CouponJpaEntity(null, welcomePolicy.getName(), welcomePolicy.getId(), 1L, now, now.plusDays(30), null, null));
         memberCouponJpaRepository.save(new MemberCouponJpaEntity(memberId,entity.getId()));
     }
+    @Transactional(readOnly = true)
+    public Coupon getCoupon(Long couponId, Long memberId, Book book) {
+        CouponJpaEntity couponJpaEntity = couponJpaRepository.findById(couponId)
+                .orElseThrow(() -> new CustomException("error.message.notFoundCouponId", new Object[]{couponId,memberId}));
+        Coupon coupon=makerComposite.makeCoupon(couponJpaEntity);
+
+    }
 }
