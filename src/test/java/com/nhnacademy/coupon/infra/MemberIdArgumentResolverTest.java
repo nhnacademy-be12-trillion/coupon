@@ -16,7 +16,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.MethodParameter;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.NativeWebRequest;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,18 +33,17 @@ class MemberIdArgumentResolverTest {
         resolver = new MemberIdArgumentResolver();
     }
     @Test
-    @DisplayName("MemberId 어노테이션가 없으면 지원되지않음.")
+    @DisplayName("MemberId 어노테이션이 없으면 지원되지 않음.")
     void test1(){
-        when(methodParameter.getParameterType()).thenReturn((Class) Component.class);
+        when(methodParameter.hasParameterAnnotation(MemberId.class)).thenReturn(false);
         Assertions.assertThat(resolver.supportsParameter(methodParameter)).isFalse();
     }
     @Test
-    @DisplayName("MemberId 어노테이션가 있으면 지원함.")
+    @DisplayName("MemberId 어노테이션이 있으면 지원함.")
     void test2(){
-        when(methodParameter.getParameterType()).thenReturn((Class) MemberId.class);
+        when(methodParameter.hasParameterAnnotation(MemberId.class)).thenReturn(true);
         Assertions.assertThat(resolver.supportsParameter(methodParameter)).isTrue();
     }
-
     @Test
     @DisplayName("X-Member-Id가 없으면 실패한다")
     void test3(){
