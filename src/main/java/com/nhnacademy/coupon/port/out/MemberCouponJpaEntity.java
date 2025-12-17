@@ -26,7 +26,7 @@ public class MemberCouponJpaEntity {
     private Long id;
     private Long memberId;
     private Long couponId;
-    private boolean use;
+    private boolean isUse;
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
@@ -36,10 +36,10 @@ public class MemberCouponJpaEntity {
     }
 
     public void useCoupon() {
-        use=true;
+        isUse =true;
     }
 
     public void rollback() {
-        use=false;
+        isUse =false;
     }
 }

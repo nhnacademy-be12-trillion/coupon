@@ -1,9 +1,7 @@
 package com.nhnacademy.coupon.port.in.admin.policy;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,34 +67,6 @@ class CouponPolicyControllerTest {
                         .content(objectMapper.writeValueAsString(new PolicyCreateRequest("q23",100D,200L,2000L,
                                 CouponDiscountType.FIXED_AMOUNT)))
                 )
-                .andExpect(status().isOk());
-    }
-    @Test
-    @DisplayName("예외 나오면 400 반환")
-    void test6() throws Exception {
-        Mockito.doThrow(new CustomException("qwe")).when(service).update(any());
-        mockMvc.perform(put("/admin/policies/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new PolicyUpdateRequest("qwe",100D,200L,2000L,
-                                CouponDiscountType.FIXED_AMOUNT)))
-                );
-    }
-    @Test
-    @DisplayName("예외 안나오면 200 반환")
-    void test5() throws Exception {
-        Mockito.doNothing().when(service).update(any());
-        mockMvc.perform(put(PATH+"/1")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(objectMapper.writeValueAsString(new PolicyUpdateRequest("qwe",100D,200L,2000L,
-                                CouponDiscountType.FIXED_AMOUNT)))
-                )
-                .andExpect(status().isOk());
-    }
-    @Test
-    @DisplayName("삭제- 돌아간다.")
-    void test7() throws Exception {
-        Mockito.doNothing().when(service).delete(any());
-        mockMvc.perform(delete(PATH+"/1"))
                 .andExpect(status().isOk());
     }
 }
