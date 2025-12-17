@@ -1,9 +1,9 @@
 package com.nhnacademy.coupon.domain.policy;
 
 public class TestCouponPolicy extends CouponPolicy {
-    public static Long MIN_ORDER_PRICE=10_000L;
-    public static Long MAX_ORDER_PRICE=100_000L;
-    public static Double DISOUNT=10_000D;
+    public static final Long MIN_ORDER_PRICE=10_000L;
+    public static final Long  MAX_ORDER_PRICE=100_000L;
+    public static final Double DISOUNT=10_000D;
 
     public TestCouponPolicy() {
         super(null, null,MIN_ORDER_PRICE, MAX_ORDER_PRICE, DISOUNT, CouponDiscountType.FIXED_AMOUNT);
