@@ -10,9 +10,9 @@ name: coupon-service package
 
 on:
   push:
-    branches: [ "infra" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "infra" ]
+    branches: [ "dev" ]
   workflow_dispatch:
 
 env:
@@ -72,7 +72,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            SERVICE_NAME1="coupon-peer"
+            SERVICE_NAME1="trillion-coupon-service"
 
             echo "SSH 접속 및 디렉토리 이동..."
             mkdir -p ${{ env.DEPLOY_DIR }}
@@ -83,12 +83,12 @@ jobs:
 
             echo "Coupon-service 업데이트 시작"
 
-            echo "최신 이미지 Pull 및 Peer 재시작..."
+            echo "최신 이미지 Pull 및 서비스 재시작..."
             docker compose rm -f ${SERVICE_NAME1}
             docker compose pull ${SERVICE_NAME1}
             docker compose up -d --no-deps ${SERVICE_NAME1}
             
-            echo "Coupon-Service 롤링 업데이트 완료!"
+            echo "Coupon-Service 업데이트 완료!"
 
             echo "Docker Registry 로그아웃..."
             docker logout ${{ env.REGISTRY }}
