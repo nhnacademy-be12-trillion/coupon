@@ -36,7 +36,16 @@ jobs:
 
       # Sonarqube
       - name : Run SonarQube
-        run : mvn clean verify sonar:sonar -Dsonar.projectKey=nhnacademy-be12-trillion-coupon -Dsonar.host.url=${{secrets.SONAR_HOST}} -Dsonar.token=${{secrets.SONAR_TOKEN}}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST_URL }}
+          run: |
+            chmod +x mvnw
+            ./mvnw clean verify sonar:sonar \
+              -Dsonar.projectKey=nhnacademy-be12-trillion-coupon \
+              -Dsonar.host.url=$SONAR_HOST_URL \
+              -Dsonar.token=$SONAR_TOKEN \
+              -Dspring.cloud.config.enabled=false \
 
       - name: Build with Maven
         run: mvn clean package -DskipTests
