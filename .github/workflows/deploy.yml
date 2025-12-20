@@ -34,13 +34,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      # Sonarqube
+      - name : Run SonarQube
+        run : mvn clean verify sonar:sonar -Dsonar.projectKey=nhnacademy-be12-trillion-coupon -Dsonar.host.url=${{secrets.SONAR_HOST}} -Dsonar.token=${{secrets.SONAR_TOKEN}}
 
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-      # Sonarqube
-      - name : Run SonarQube
-        run : mvn sonar:sonar -Dsonar.projectKey=nhnacademy-be12-trillion-coupon -Dsonar.host.url=${{secrets.SONAR_HOST}} -Dsonar.token=${{secrets.SONAR_TOKEN}}
       - name: GitHub Packages 로그인
         uses: docker/login-action@v3
         with:
