@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -155,8 +154,8 @@ class CouponServiceTest {
     }
 
     @Test
-    @DisplayName("useCoupon_실패_쿠폰없음")
-    void useCoupon_fail_couponNotFound() {
+    @DisplayName("useCoupon_실패_멤버쿠폰없음")
+    void useCoupon_fail_NotFoundMemberCoupon() {
         Long couponId = 1L;
         Long memberId = 100L;
         List<BookOrder> bookOrders = List.of();
@@ -175,18 +174,23 @@ class CouponServiceTest {
                 couponService.useCoupon(couponId, memberId, bookOrders)
         );
     }
-
     @Test
-    @DisplayName("useCoupon_실패_멤버쿠폰없음")
-    void useCoupon_fail_memberCouponNotFound() {
-        // given
-        given(couponJpaRepository.findById(anyLong())).willReturn(Optional.empty());
-
-            // when & then
+    @DisplayName("useCoupon_실패_쿠폰없음")
+    void useCoupon_fail_NotFoundCoupon() {
+        Long couponId = 1L;
+        Long memberId = 100L;
+        List<BookOrder> bookOrders = List.of();
+        CouponJpaEntity couponEntity = mock(CouponJpaEntity.class);
+        Coupon coupon = mock(Coupon.class);
+        given(couponJpaRepository.findById(couponId)).willReturn(Optional.of(couponEntity));
+        given(makerComposite.makeCoupon(couponEntity)).willReturn(coupon);
+        given(memberCouponJpaRepository.findByCouponIdAndMemberId(couponId, memberId))
+                .willReturn(Optional.empty());
+        given(checkCouponService.filterAvailableBook(bookOrders,couponId)).willReturn(List.of());
+        // when & then
         assertThrows(CustomException.class, () ->
-                    couponService.useCoupon(1L, 100L, List.of())
+                couponService.useCoupon(couponId, memberId, bookOrders)
         );
-
     }
 
     @Test
