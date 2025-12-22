@@ -85,7 +85,6 @@ public class CouponService {
     }
     @Transactional(readOnly = true)
     public Price getDiscountValue(Long couponId, List<BookOrder> bookOrders) {
-
         BookDiscountPrice bookDiscountPrice = new BookDiscountPrice(bookOrders,checkCouponService.filterAvailableBook(bookOrders,couponId));
         Coupon coupon = makerComposite.makeCoupon(couponJpaRepository.findById(couponId)
                 .orElseThrow(() -> new CustomException("error.message.notFoundCouponId", new Object[]{couponId})));

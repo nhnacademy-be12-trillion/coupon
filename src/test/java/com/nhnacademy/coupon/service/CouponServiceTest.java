@@ -157,12 +157,23 @@ class CouponServiceTest {
     @Test
     @DisplayName("useCoupon_실패_쿠폰없음")
     void useCoupon_fail_couponNotFound() {
-        given(couponJpaRepository.findById(TEST_COUPON_ID)).willReturn(Optional.empty());
+        Long couponId = 1L;
+        Long memberId = 100L;
+        List<BookOrder> bookOrders = List.of();
 
-        assertThrows(CustomException.class,
-                () -> couponService.useCoupon(TEST_COUPON_ID, TEST_MEMBER_ID,any()));
+        CouponJpaEntity couponEntity = mock(CouponJpaEntity.class);
+        Coupon coupon = mock(Coupon.class);
 
-        verify(memberCouponJpaRepository, never()).findByCouponIdAndMemberId(anyLong(), anyLong());
+        given(couponJpaRepository.findById(couponId)).willReturn(Optional.of(couponEntity));
+        given(makerComposite.makeCoupon(couponEntity)).willReturn(coupon);
+        given(memberCouponJpaRepository.findByCouponIdAndMemberId(couponId, memberId))
+                .willReturn(Optional.empty());
+        given(checkCouponService.filterAvailableBook(bookOrders,couponId)).willReturn(List.of());
+
+        // when & then
+        assertThrows(CustomException.class, () ->
+                couponService.useCoupon(couponId, memberId, bookOrders)
+        );
     }
 
     @Test

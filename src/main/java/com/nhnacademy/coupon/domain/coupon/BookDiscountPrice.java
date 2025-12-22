@@ -54,7 +54,11 @@ public class BookDiscountPrice {
                  .sum());
     }
     public Price getPercentBookPrice(Price discountPrice,Long bookId) {
-        return new Price((long)(discountPrice.value()/(double)getTotalBookPrice().value()*getBookPrice(bookId).value()));
+        double totalValue = getTotalBookPrice().value();
+        if (totalValue == 0) {
+            return new Price(0L);
+        }
+        return new Price((long)(discountPrice.value()/totalValue*getBookPrice(bookId).value()));
     }
 
 

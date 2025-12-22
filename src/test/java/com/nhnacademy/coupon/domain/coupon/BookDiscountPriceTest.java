@@ -86,13 +86,6 @@ class BookDiscountPriceTest {
         Assertions.assertThat(bookDiscountPrice.getTotalBookPrice()).isEqualTo(new Price(8000L));
     }
 
-
-    @Test
-    @DisplayName("책가격이 있는 책의 총값이 나온다.")
-    void test2() {
-        Assertions.assertThat(bookDiscountPrice.getTotalBookPrice()).isEqualTo(new Price(8000L));
-    }
-
     @ParameterizedTest
     @CsvSource(value = {
             "8000,2,0",
