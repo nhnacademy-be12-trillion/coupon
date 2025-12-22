@@ -14,7 +14,7 @@ public class AllPricePolicy extends CouponPolicy{
     }
 
     @Override
-    protected Price getDiscountAmount(Price price) {
+    public Price getDiscountAmount(Price price) {
         if(price.value()<getMinOrderPrice()) {
             throw new CustomException("error.message.minOrderPrice",new Object[]{price.value(),getMinOrderPrice()});
         }

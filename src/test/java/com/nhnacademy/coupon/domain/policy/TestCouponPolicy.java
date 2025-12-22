@@ -20,7 +20,7 @@ public class TestCouponPolicy extends CouponPolicy {
     }
 
     @Override
-    protected Price getDiscountAmount(Price price) {
+    public Price getDiscountAmount(Price price) {
         return new AllPricePolicy(getId(),getName(),getMinOrderPrice(),getMaxDiscountPrice(),getDiscountValue(),getCouponDiscountType()).getDiscountAmount(price);
     }
 }

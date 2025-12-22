@@ -1,6 +1,7 @@
 package com.nhnacademy.coupon.service;
 
-import com.nhnacademy.coupon.domain.Book;
+import com.nhnacademy.coupon.domain.coupon.BookDiscountPrice;
+import com.nhnacademy.coupon.domain.coupon.BookOrder;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.domain.policy.Price;
@@ -13,6 +14,7 @@ import com.nhnacademy.coupon.service.maker.MakerComposite;
 import com.nhnacademy.coupon.service.policy.CouponPolicyService;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,8 +27,9 @@ public class CouponService {
     private final CouponPolicyService couponPolicyService;
     private final MakerComposite makerComposite;
     private final MemberCouponJpaRepository memberCouponJpaRepository;
+    private final CheckCouponService checkCouponService;
 
-
+    @Transactional(readOnly = true)
     public Collection<Coupon> findAll(Pageable pageable) {
         return couponJpaRepository.findAll(pageable)
                 .stream()
@@ -51,14 +54,16 @@ public class CouponService {
         couponJpaRepository.save(makerComposite.makeCouponEntity(coupon));
     }
     @Transactional
-    public void useCoupon(Long couponId, Long memberId, Book book) {
+    public void useCoupon(Long couponId, Long memberId, List<BookOrder> bookOrders) {
         CouponJpaEntity couponJpaEntity = couponJpaRepository.findById(couponId)
                 .orElseThrow(() -> new CustomException("error.message.notFoundCouponId", new Object[]{couponId,memberId}));
+
         Coupon coupon = makerComposite.makeCoupon(couponJpaEntity);
         Long usingCount= memberCouponJpaRepository.findByUsingCouponIdWithLock(couponId);
-        coupon.validateCoupon(book, usingCount, LocalDateTime.now());
+        BookDiscountPrice bookDiscountPrice = new BookDiscountPrice(bookOrders,checkCouponService.filterAvailableBook(bookOrders,couponId));
 
-        couponPolicyService.validatePolicy(coupon.getPolicyId(),new Price(book.price()));
+        coupon.validateCoupon(usingCount, LocalDateTime.now());
+        couponPolicyService.validatePolicy(coupon.getPolicyId(),bookDiscountPrice.getTotalBookPrice());
 
         memberCouponJpaRepository.findByCouponIdAndMemberId(couponId, memberId)
                 .orElseThrow(() -> new CustomException("error.message.notFoundMemberCouponId", new Object[]{couponId, memberId}))
@@ -79,9 +84,13 @@ public class CouponService {
         memberCouponJpaRepository.save(new MemberCouponJpaEntity(memberId,entity.getId()));
     }
     @Transactional(readOnly = true)
-    public CouponPolicy getCouponPolicy(Long couponId) {
-        CouponJpaEntity couponJpaEntity = couponJpaRepository.findById(couponId)
-                .orElseThrow(() -> new CustomException("error.message.notFoundCouponId", new Object[]{couponId}));
-      return couponPolicyService.getCouponPolicy(couponJpaEntity.getPolicyId());
+    public Price getDiscountValue(Long couponId, List<BookOrder> bookOrders) {
+
+        BookDiscountPrice bookDiscountPrice = new BookDiscountPrice(bookOrders,checkCouponService.filterAvailableBook(bookOrders,couponId));
+        Coupon coupon = makerComposite.makeCoupon(couponJpaRepository.findById(couponId)
+                .orElseThrow(() -> new CustomException("error.message.notFoundCouponId", new Object[]{couponId})));
+
+        return couponPolicyService.getCouponPolicy(coupon.getPolicyId())
+                .getDiscountAmount(bookDiscountPrice.getTotalBookPrice());
     }
 }
