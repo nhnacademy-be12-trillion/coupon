@@ -1,6 +1,5 @@
 package com.nhnacademy.coupon.domain.coupon;
 
-import com.nhnacademy.coupon.domain.Book;
 import com.nhnacademy.coupon.error.CustomException;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -34,7 +33,7 @@ public class Coupon {
         this.issueStartDate = issueStartDate;
         this.issueEndDate = issueEndDate;
     }
-    public void validateCoupon(Book book, Long usingCount, LocalDateTime now) {
+    public void validateCoupon(Long usingCount, LocalDateTime now) {
 
         if(!compareQuantity(usingCount) || !(issueStartDate.isBefore(now) && now.isBefore(issueEndDate))
         ){
@@ -48,5 +47,9 @@ public class Coupon {
         if(quantity==null)
             return true;
         return quantity>usingCount;
+    }
+
+    public boolean isAvailable(Book book) {
+        return true;
     }
 }

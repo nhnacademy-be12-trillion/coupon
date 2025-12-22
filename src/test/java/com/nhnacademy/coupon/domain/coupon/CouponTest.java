@@ -1,23 +1,14 @@
 package com.nhnacademy.coupon.domain.coupon;
 
-import com.nhnacademy.coupon.domain.Book;
 import com.nhnacademy.coupon.error.CustomException;
 import java.time.LocalDateTime;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class CouponTest {
-
-    private Book book;
-
-    @BeforeEach
-    void setUp() {
-        book= new Book(1L,1L, 1L);
-    }
     @Test
     @DisplayName("끝나는 시간이 시작시간보다 앞이면 예외반환")
     void testCoupon() {
@@ -60,7 +51,7 @@ class CouponTest {
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end= start.plusSeconds(2);
         Coupon coupon = new Coupon(null, "qwe", 1L, null, start, end);
-        Assertions.assertThatCode(()->coupon.validateCoupon(book,usingCount,start.plusSeconds(1))).doesNotThrowAnyException();
+        Assertions.assertThatCode(()->coupon.validateCoupon(usingCount,start.plusSeconds(1))).doesNotThrowAnyException();
     }
 
     @ParameterizedTest
@@ -70,7 +61,7 @@ class CouponTest {
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end= start.plusSeconds(2);
         Coupon coupon = new Coupon(null, "qwe", 1L, 10L, start, end);
-        Assertions.assertThatCode(()->coupon.validateCoupon(book,usingCount, start.plusSeconds(1))).doesNotThrowAnyException();
+        Assertions.assertThatCode(()->coupon.validateCoupon(usingCount, start.plusSeconds(1))).doesNotThrowAnyException();
     }
 
 
@@ -81,7 +72,7 @@ class CouponTest {
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end= start.plusSeconds(1);
         Coupon coupon = new Coupon(null, "qwe", 1L, 10L, start, end);
-        Assertions.assertThatThrownBy(()->coupon.validateCoupon(book,usingCount, null)).isInstanceOf(CustomException.class);
+        Assertions.assertThatThrownBy(()->coupon.validateCoupon(usingCount, null)).isInstanceOf(CustomException.class);
     }
     @ParameterizedTest
     @ValueSource(longs = {Long.MIN_VALUE, Integer.MIN_VALUE,-1})
@@ -90,6 +81,6 @@ class CouponTest {
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end= start.plusSeconds(1);
         Coupon coupon = new Coupon(null, "qwe", 1L, null, start, end);
-        Assertions.assertThatThrownBy(()->coupon.validateCoupon(book,usingCount, null)).isInstanceOf(CustomException.class);
+        Assertions.assertThatThrownBy(()->coupon.validateCoupon(usingCount, null)).isInstanceOf(CustomException.class);
     }
 }

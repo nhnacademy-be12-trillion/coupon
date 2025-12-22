@@ -18,13 +18,14 @@ public class CouponPolicyService {
     private static final String WELCOME = "WELCOME";
     private final CouponPolicyJpaRepository couponPolicyJpaRepository;
 
+    @Transactional(readOnly = true)
     public List<CouponPolicy> getCouponPolicys(Pageable pageable) {
         return couponPolicyJpaRepository.findAll(pageable)
                 .stream()
                 .map(this::create)
                 .toList();
     }
-
+    @Transactional(readOnly = true)
     public void validateExistById(Long id){
         if(!couponPolicyJpaRepository.existsById(id))
             throw new CustomException("error.message.couponPolicy.notFound",new Object[]{id});
@@ -36,7 +37,8 @@ public class CouponPolicyService {
     }
     @Transactional
     public void update(CouponPolicy couponPolicy) {
-        validateExistById(couponPolicy.getId());
+        if(!couponPolicyJpaRepository.existsById(couponPolicy.getId()))
+            throw new CustomException("error.message.couponPolicy.notFound",new Object[]{couponPolicy.getId()});
         couponPolicyJpaRepository.save(createCouponPolicyJpaEntity(couponPolicy));
     }
     @Transactional
@@ -49,20 +51,20 @@ public class CouponPolicyService {
     private CouponPolicyJpaEntity createCouponPolicyJpaEntity(CouponPolicy couponPolicy) {
         return new CouponPolicyJpaEntity(couponPolicy.getId(),couponPolicy.getName(),couponPolicy.getDiscountValue(),couponPolicy.getMinOrderPrice(),couponPolicy.getMaxDiscountPrice(),couponPolicy.getCouponDiscountType());
     }
-
+    @Transactional(readOnly = true)
     public void validatePolicy(Long policyId, Price price) {
         CouponPolicy couponPolicy = create(couponPolicyJpaRepository.findById(policyId)
                 .orElseThrow(() -> new CustomException("error.message.couponPolicy.notFound", new Object[]{policyId}))
         );
         couponPolicy.getApplyCouponPrice(price);
     }
-
+    @Transactional(readOnly = true)
     public CouponPolicy getWelcomePolicy() {
         return couponPolicyJpaRepository.findByName(WELCOME)
                     .map(this::create)
                 .orElseThrow(() -> new CustomException("error.message.couponPolicy.notFound", new Object[]{WELCOME}));
     }
-
+    @Transactional(readOnly = true)
     public CouponPolicy getCouponPolicy(Long id) {
         return couponPolicyJpaRepository.findById(id)
                 .map(this::create)
