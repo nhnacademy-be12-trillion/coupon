@@ -26,12 +26,12 @@ public class MemberIdArgumentResolver implements CustomArgumentResolver {
             throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if(request.getHeader(X_MEMBER_ID)==null){
-            throw new CustomException("error.message.notFoundMemberId", HttpStatus.UNAUTHORIZED);
+            throw new CustomException("error.message.auth", HttpStatus.UNAUTHORIZED);
         }
         try{
             return Long.parseLong(request.getHeader(X_MEMBER_ID));
         }catch(NumberFormatException e){
-            throw new CustomException("error.message.notFoundMemberId", HttpStatus.UNAUTHORIZED);
+            throw new CustomException("error.message.auth", HttpStatus.UNAUTHORIZED);
         }
     }
 }

@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BookCouponService {
     private final MakerComposite makerComposite;
-    private final CouponQueryDsl couponQUeryDsl;
+    private final CouponQueryDsl couponQueryDsl;
     private final CheckCouponService checkCouponService;
     @Transactional(readOnly = true)
     public List<Coupon> getCoupons(Long bookId, Pageable pageable) {
-        return couponQUeryDsl.findCouponBook(bookId,checkCouponService.filterAvailableBook(bookId).getCategoryIds(), pageable)
+        return couponQueryDsl.findCouponBook(bookId,checkCouponService.filterAvailableBook(bookId).getCategoryIds(), pageable)
                         .stream()
                         .map(makerComposite::makeCoupon)
                         .toList();

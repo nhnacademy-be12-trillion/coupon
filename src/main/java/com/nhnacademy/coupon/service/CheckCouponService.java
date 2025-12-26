@@ -3,7 +3,7 @@ package com.nhnacademy.coupon.service;
 import com.nhnacademy.coupon.domain.coupon.Book;
 import com.nhnacademy.coupon.domain.coupon.BookOrder;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
-import com.nhnacademy.coupon.error.CustomException;
+import com.nhnacademy.coupon.error.CustomNotFoundException;
 import com.nhnacademy.coupon.port.out.BookClient;
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaRepository;
 import com.nhnacademy.coupon.service.maker.MakerComposite;
@@ -23,7 +23,7 @@ public class CheckCouponService {
     @Transactional(readOnly = true)
     public List<Book> filterAvailableBook(List<BookOrder> bookOrders, Long couponId) {
         Coupon coupon = makerComposite.makeCoupon(couponJpaRepository.findById(couponId)
-                .orElseThrow(() -> new CustomException("error.message.notFoundCouponId", new Object[]{couponId})));
+                .orElseThrow(() -> new CustomNotFoundException("error.message.notFoundCouponId", new Object[]{couponId})));
 
         List<Long> bookIds = bookOrders.stream().map(BookOrder::bookId).toList();
 
@@ -40,7 +40,7 @@ public class CheckCouponService {
                 .stream()
                 .map(response -> new Book(response.bookId(),response.isbn(),response.bookStock(),response.bookSalePrice() ,response.categoryIds()))
                 .findFirst()
-                .get();
+                .orElseThrow(() -> new CustomNotFoundException("error.message.bookNotFound",new Object[]{bookId}));
     }
 
 }
