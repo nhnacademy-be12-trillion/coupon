@@ -6,6 +6,7 @@ import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.domain.policy.Price;
 import com.nhnacademy.coupon.error.CustomException;
+import com.nhnacademy.coupon.error.CustomNotFoundException;
 import com.nhnacademy.coupon.port.out.MemberCouponJpaEntity;
 import com.nhnacademy.coupon.port.out.MemberCouponJpaRepository;
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
@@ -50,13 +51,13 @@ public class CouponService {
     public void update(Coupon coupon) {
         validateExistCouponPolicy(coupon);
         if(!couponJpaRepository.existsById(coupon.getId()))
-            throw new CustomException("error.message.notFoundCouponId",new Object[]{coupon.getId()});
+            throw new CustomNotFoundException("error.message.notFoundCouponId",new Object[]{coupon.getId()});
         couponJpaRepository.save(makerComposite.makeCouponEntity(coupon));
     }
     @Transactional
     public void useCoupon(Long couponId, Long memberId, List<BookOrder> bookOrders) {
         CouponJpaEntity couponJpaEntity = couponJpaRepository.findById(couponId)
-                .orElseThrow(() -> new CustomException("error.message.notFoundCouponId", new Object[]{couponId,memberId}));
+                .orElseThrow(() -> new CustomNotFoundException("error.message.notFoundCouponId", new Object[]{couponId,memberId}));
 
         Coupon coupon = makerComposite.makeCoupon(couponJpaEntity);
         Long usingCount= memberCouponJpaRepository.findByUsingCouponIdWithLock(couponId);
@@ -66,14 +67,14 @@ public class CouponService {
         couponPolicyService.validatePolicy(coupon.getPolicyId(),bookDiscountPrice.getTotalBookPrice());
 
         memberCouponJpaRepository.findByCouponIdAndMemberId(couponId, memberId)
-                .orElseThrow(() -> new CustomException("error.message.notFoundMemberCouponId", new Object[]{couponId, memberId}))
+                .orElseThrow(() -> new CustomNotFoundException("error.message.notFoundMemberCouponId", new Object[]{couponId, memberId}))
                 .useCoupon();
     }
 
     @Transactional
     public void rollbackCoupon(Long couponId, Long memberId) {
         memberCouponJpaRepository.findByCouponIdAndMemberId(couponId, memberId)
-                .orElseThrow(() -> new CustomException("error.message.notFoundMemberCouponId", new Object[]{couponId, memberId}))
+                .orElseThrow(() -> new CustomNotFoundException("error.message.notFoundMemberCouponId", new Object[]{couponId, memberId}))
                 .rollback();
     }
     @Transactional
