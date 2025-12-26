@@ -33,4 +33,14 @@ public class CheckCouponService {
                 .filter(coupon::isAvailable)
                 .toList();
     }
+
+    @Transactional(readOnly = true)
+    public Book filterAvailableBook(Long bookId) {
+        return bookClient.getBooks(List.of(bookId))
+                .stream()
+                .map(response -> new Book(response.bookId(),response.isbn(),response.bookStock(),response.bookSalePrice() ,response.categoryIds()))
+                .findFirst()
+                .get();
+    }
+
 }
