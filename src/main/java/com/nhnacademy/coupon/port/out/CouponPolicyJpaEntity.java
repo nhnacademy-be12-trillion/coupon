@@ -25,10 +25,14 @@ public class CouponPolicyJpaEntity {
     private Long id;
     @Column(nullable = false,unique = true)
     private String name;
+    @Column(name = "discount_value")
     private Double discountValue;
+    @Column(name = "min_order_price")
     private Long minOrderPrice;
+    @Column(name = "max_discount_price")
     private Long maxDiscountPrice;
     @Enumerated(EnumType.STRING)
+    @Column(name = "discount_type")
     private CouponDiscountType discountType;
 
     public CouponPolicyJpaEntity(String name, Double discountValue, Long minOrderPrice, Long maxDiscountPrice,

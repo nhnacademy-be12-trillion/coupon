@@ -1,5 +1,6 @@
 package com.nhnacademy.coupon.port.out;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -24,10 +25,14 @@ public class MemberCouponJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "member_id")
     private Long memberId;
+    @Column(name = "coupon_id")
     private Long couponId;
+    @Column(name = "is_use")
     private boolean isUse;
     @LastModifiedDate
+    @Column(name = "last_modified_date")
     private LocalDateTime lastModifiedDate;
 
     public MemberCouponJpaEntity(Long memberId, Long couponId) {

@@ -3,6 +3,7 @@ package com.nhnacademy.coupon.port.out.coupon;
 import com.nhnacademy.coupon.domain.coupon.BookIdCoupon;
 import com.nhnacademy.coupon.domain.coupon.CategoryIdCoupon;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,11 +25,17 @@ public class CouponJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(name = "policy_id")
     private Long policyId;
+    @Column(name = "quantity")
     private Long quantity;
+    @Column(name = "issue_start_date")
     private LocalDateTime issueStartDate;
+    @Column(name = "issue_end_date")
     private LocalDateTime issueEndDate;
+    @Column(name = "category_id")
     private Long categoryId;
+    @Column(name = "book_id")
     private Long bookId;
 
     public CouponJpaEntity(Coupon coupon) {
