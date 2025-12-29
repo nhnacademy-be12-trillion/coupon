@@ -31,7 +31,7 @@ public class MemberCouponQuerydsl {
                 .join(QCouponPolicyJpaEntity.couponPolicyJpaEntity)
                 .on(QCouponJpaEntity.couponJpaEntity.policyId.eq(QCouponPolicyJpaEntity.couponPolicyJpaEntity.id))
                 .where(
-                        QMemberCouponJpaEntity.memberCouponJpaEntity.id.eq(memberId)
+                        QMemberCouponJpaEntity.memberCouponJpaEntity.memberId.eq(memberId)
                                 .and(QMemberCouponJpaEntity.memberCouponJpaEntity.isUse.isFalse())
                 )
                 .offset(pageable.getOffset())
