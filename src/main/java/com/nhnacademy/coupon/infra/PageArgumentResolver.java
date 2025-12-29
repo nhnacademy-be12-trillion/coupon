@@ -1,23 +1,20 @@
 package com.nhnacademy.coupon.infra;
 
-import com.nhnacademy.coupon.error.CustomException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.jspecify.annotations.Nullable;
 import org.springframework.core.MethodParameter;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
-public class MemberIdArgumentResolver implements CustomArgumentResolver {
-
-    public static final String X_MEMBER_ID = "X-Member-Id";
-
+public class PageArgumentResolver implements CustomArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(MemberId.class);
+        return Pageable.class.equals(parameter.getParameterType());
     }
 
     @Override
@@ -25,13 +22,21 @@ public class MemberIdArgumentResolver implements CustomArgumentResolver {
                                             NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory)
             throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        if(request.getHeader(X_MEMBER_ID)==null){
-            throw new CustomException("error.message.auth", HttpStatus.UNAUTHORIZED);
+        return PageRequest.of(getPageNumber(request),getPageSize(request));
+    }
+
+    private int getPageNumber(HttpServletRequest request) {
+        String parameter = request.getParameter("pageNumber");
+        if(parameter == null) {
+            return 0;
         }
-        try{
-            return Long.parseLong(request.getHeader(X_MEMBER_ID));
-        }catch(NumberFormatException e){
-            throw new CustomException("error.message.auth", HttpStatus.UNAUTHORIZED);
+        return Integer.parseInt(parameter);
+    }
+    private int getPageSize(HttpServletRequest request) {
+        String parameter = request.getParameter("pageSize");
+        if(parameter == null) {
+            return 10;
         }
+        return Integer.parseInt(parameter);
     }
 }

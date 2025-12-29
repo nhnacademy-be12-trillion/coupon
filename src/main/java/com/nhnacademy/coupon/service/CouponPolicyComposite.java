@@ -6,7 +6,7 @@ import com.nhnacademy.coupon.domain.policy.CouponPolicy;
 import com.nhnacademy.coupon.domain.policy.NonePricePolicy;
 import com.nhnacademy.coupon.domain.policy.OnlyMaxDiscountPricePolicy;
 import com.nhnacademy.coupon.domain.policy.OnlyMinOrderPriceCouponPolicy;
-import com.nhnacademy.coupon.error.CustomException;
+import com.nhnacademy.coupon.error.CustomNotFoundException;
 import java.util.stream.Stream;
 
 public class CouponPolicyComposite {
@@ -20,6 +20,6 @@ public class CouponPolicyComposite {
                 )
                 .filter(CouponPolicy::match)
                 .findFirst()
-                .orElseThrow(()->new CustomException("error.message.notFoundCouponPolicy"));
+                .orElseThrow(()->new CustomNotFoundException("error.message.notFoundCouponPolicy",new Object[]{id}));
     }
 }

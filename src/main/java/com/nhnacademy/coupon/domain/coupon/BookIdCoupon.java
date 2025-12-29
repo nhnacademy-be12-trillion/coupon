@@ -1,9 +1,7 @@
 package com.nhnacademy.coupon.domain.coupon;
 
-import com.nhnacademy.coupon.domain.Book;
 import com.nhnacademy.coupon.error.CustomException;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import lombok.Getter;
 
 @Getter
@@ -19,9 +17,7 @@ public class BookIdCoupon extends Coupon{
     }
 
     @Override
-    public void validateCoupon(Book book, Long usingCount, LocalDateTime now) {
-        super.validateCoupon(book, usingCount, now);
-        if(!Objects.equals(book.bookId(), bookId))
-            throw new CustomException("error.message.notFoundCoupon");
+    public boolean isAvailable(Book book) {
+        return bookId.equals(book.getBookId());
     }
 }

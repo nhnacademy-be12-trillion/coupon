@@ -30,5 +30,5 @@ public abstract class CouponPolicy {
     public Price getApplyCouponPrice(Price price){
         return new Price(price.value()- getDiscountAmount(price).value());
     }
-    protected abstract Price getDiscountAmount(Price price);
+    public abstract Price getDiscountAmount(Price price);
 }

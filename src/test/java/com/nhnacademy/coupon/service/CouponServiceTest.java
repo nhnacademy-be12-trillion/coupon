@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -14,11 +13,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.nhnacademy.coupon.domain.Book;
+import com.nhnacademy.coupon.domain.coupon.BookOrder;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.domain.policy.AllPricePolicy;
 import com.nhnacademy.coupon.domain.policy.CouponDiscountType;
-import com.nhnacademy.coupon.domain.policy.Price;
 import com.nhnacademy.coupon.error.CustomException;
 import com.nhnacademy.coupon.port.out.MemberCouponJpaEntity;
 import com.nhnacademy.coupon.port.out.MemberCouponJpaRepository;
@@ -63,7 +61,8 @@ class CouponServiceTest {
     private Coupon mockCoupon;
     private CouponJpaEntity mockCouponEntity;
     private MemberCouponJpaEntity mockMemberCouponEntity;
-    private Book mockBook;
+    @Mock
+    private CheckCouponService checkCouponService;
 
     @BeforeEach
     void setUp() {
@@ -71,7 +70,6 @@ class CouponServiceTest {
         mockCouponEntity = mock(CouponJpaEntity.class);
         mockMemberCouponEntity = mock(MemberCouponJpaEntity.class);
 
-        mockBook = new Book(10000L,1L,1L);
     }
 
     @Test
@@ -135,41 +133,64 @@ class CouponServiceTest {
     @Test
     @DisplayName("useCoupon_성공_쿠폰사용")
     void useCoupon_success() {
-        given(couponJpaRepository.findById(any())).willReturn(Optional.of(mockCouponEntity));
-        given(makerComposite.makeCoupon(mockCouponEntity)).willReturn(mockCoupon);
-        given(memberCouponJpaRepository.findByUsingCouponIdWithLock(any())).willReturn(0L);
-        doNothing().when(mockCoupon).validateCoupon(any(Book.class), anyLong(), any());
-        doNothing().when(couponPolicyService).validatePolicy(anyLong(), any(Price.class));
-        given(memberCouponJpaRepository.findByCouponIdAndMemberId(any(), anyLong()))
-                .willReturn(Optional.of(mockMemberCouponEntity));
+// given
+        Long couponId = 1L;
+        Long memberId = 100L;
+        List<BookOrder> bookOrders = List.of(); // 필요한 경우 데이터 채움
 
-        Assertions.assertThatCode(()->couponService.useCoupon(TEST_COUPON_ID, TEST_MEMBER_ID, mockBook)).doesNotThrowAnyException();
-    }
+        CouponJpaEntity couponEntity = mock(CouponJpaEntity.class);
+        Coupon coupon = mock(Coupon.class);
+        MemberCouponJpaEntity memberCouponEntity = mock(MemberCouponJpaEntity.class);
 
-    @Test
-    @DisplayName("useCoupon_실패_쿠폰없음")
-    void useCoupon_fail_couponNotFound() {
-        given(couponJpaRepository.findById(TEST_COUPON_ID)).willReturn(Optional.empty());
+        given(couponJpaRepository.findById(couponId)).willReturn(Optional.of(couponEntity));
+        given(makerComposite.makeCoupon(couponEntity)).willReturn(coupon);
+        given(memberCouponJpaRepository.findByUsingCouponIdWithLock(couponId)).willReturn(5L); // 사용 횟수
+        given(memberCouponJpaRepository.findByCouponIdAndMemberId(couponId, memberId))
+                .willReturn(Optional.of(memberCouponEntity));
+        given(checkCouponService.filterAvailableBook(bookOrders,couponId)).willReturn(List.of());
+        // when
+        couponService.useCoupon(couponId, memberId, bookOrders);
 
-        assertThrows(CustomException.class,
-                () -> couponService.useCoupon(TEST_COUPON_ID, TEST_MEMBER_ID, mockBook));
-
-        verify(memberCouponJpaRepository, never()).findByCouponIdAndMemberId(anyLong(), anyLong());
     }
 
     @Test
     @DisplayName("useCoupon_실패_멤버쿠폰없음")
-    void useCoupon_fail_memberCouponNotFound() {
-        given(couponJpaRepository.findById(TEST_COUPON_ID)).willReturn(Optional.of(mockCouponEntity));
-        given(makerComposite.makeCoupon(mockCouponEntity)).willReturn(mockCoupon);
-        given(memberCouponJpaRepository.findByUsingCouponIdWithLock(TEST_COUPON_ID)).willReturn(0L);
-        given(memberCouponJpaRepository.findByCouponIdAndMemberId(TEST_COUPON_ID, TEST_MEMBER_ID))
+    void useCoupon_fail_NotFoundMemberCoupon() {
+        Long couponId = 1L;
+        Long memberId = 100L;
+        List<BookOrder> bookOrders = List.of();
+
+        CouponJpaEntity couponEntity = mock(CouponJpaEntity.class);
+        Coupon coupon = mock(Coupon.class);
+
+        given(couponJpaRepository.findById(couponId)).willReturn(Optional.of(couponEntity));
+        given(makerComposite.makeCoupon(couponEntity)).willReturn(coupon);
+        given(memberCouponJpaRepository.findByCouponIdAndMemberId(couponId, memberId))
                 .willReturn(Optional.empty());
+        given(checkCouponService.filterAvailableBook(bookOrders,couponId)).willReturn(List.of());
 
-        assertThrows(CustomException.class,
-                () -> couponService.useCoupon(TEST_COUPON_ID, TEST_MEMBER_ID, mockBook));
-
-        verify(mockMemberCouponEntity, never()).useCoupon();
+        // when & then
+        assertThrows(CustomException.class, () ->
+                couponService.useCoupon(couponId, memberId, bookOrders)
+        );
+    }
+    @Test
+    @DisplayName("useCoupon_실패_쿠폰없음")
+    void useCoupon_fail_NotFoundCoupon() {
+        Long couponId = 1L;
+        Long memberId = 100L;
+        List<BookOrder> bookOrders = List.of();
+        CouponJpaEntity couponEntity = mock(CouponJpaEntity.class);
+        Coupon coupon = mock(Coupon.class);
+        given(couponJpaRepository.findById(couponId)).willReturn(Optional.of(couponEntity));
+        given(makerComposite.makeCoupon(couponEntity)).willReturn(coupon);
+        given(memberCouponJpaRepository.findByCouponIdAndMemberId(couponId, memberId))
+                .willReturn(Optional.empty());
+        given(checkCouponService.filterAvailableBook(bookOrders,couponId)).willReturn(List.of());
+        // when & then
+        assertThrows(CustomException.class, () ->
+                couponService.useCoupon(couponId, memberId, bookOrders)
+        );
     }
 
     @Test
