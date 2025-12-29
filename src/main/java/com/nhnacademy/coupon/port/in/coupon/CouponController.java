@@ -37,7 +37,7 @@ public class CouponController {
     public DiscountPriceResponse getDiscountPrice(@PathVariable("coupon-id") Long couponId, @MemberId Long memberId,
                                               @RequestParam List<Long>bookIds, @RequestParam List<Long>quantities) {
         List<BookOrder> bookOrders = getBookOrders(bookIds, quantities);
-        return new DiscountPriceResponse(bookOrders,new BookDiscountPrice(bookOrders,checkCouponService.filterAvailableBook(bookOrders,couponId)),couponService.getDiscountValue(couponId, bookOrders));
+        return new DiscountPriceResponse(couponService.getCoupon(couponId,memberId),bookOrders,new BookDiscountPrice(bookOrders,checkCouponService.filterAvailableBook(bookOrders,couponId)),couponService.getDiscountValue(couponId, bookOrders));
     }
     @PostMapping("/{coupon-id}/use")
     public void useCoupon(@PathVariable("coupon-id") Long couponId, @MemberId Long memberId, @RequestBody CouponUseRequest request) {

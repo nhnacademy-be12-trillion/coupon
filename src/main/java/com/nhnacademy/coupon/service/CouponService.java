@@ -93,4 +93,12 @@ public class CouponService {
         return couponPolicyService.getCouponPolicy(coupon.getPolicyId())
                 .getDiscountAmount(bookDiscountPrice.getTotalBookPrice());
     }
+
+    @Transactional(readOnly = true)
+    public Coupon getCoupon(Long couponId,Long memberId) {
+        memberCouponJpaRepository.findByCouponIdAndMemberId(couponId, memberId)
+                .orElseThrow(()->new CustomNotFoundException("error.message.notFoundCouponId", new Object[]{couponId, memberId}));
+        return makerComposite.makeCoupon(couponJpaRepository.findById(couponId)
+                .orElseThrow(() -> new CustomException("error.message.notFoundCouponId", new Object[]{couponId})));
+    }
 }
