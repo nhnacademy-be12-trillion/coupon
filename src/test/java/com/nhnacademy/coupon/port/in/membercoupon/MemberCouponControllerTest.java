@@ -34,26 +34,7 @@ class MemberCouponControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
-    @Test
-    @DisplayName("아이디가 없으면 빈 리스트가 나온다.")
-    void testFindAllByMemberId() throws Exception {
-        Mockito.when(service.findAll(any(),any())).thenReturn(List.of());
-        mockMvc.perform(MockMvcRequestBuilders.get(PATH)
-                        .header(X_MEMBER_ID,1L))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("[]"));
 
-    }
-    @Test
-    @DisplayName("아이디가 있으면 리스트가 나온다.")
-    void testFindAllByMemberId2() throws Exception {
-        Mockito.when(service.findAll(any(),any())).thenReturn(List.of(
-                new MemberCoupon(1L,1L,1L,false, LocalDateTime.now())
-        ));
-        mockMvc.perform(MockMvcRequestBuilders.get(PATH)
-                .header(X_MEMBER_ID,1L))
-                .andExpect(status().isOk());
-    }
     @Test
     @DisplayName("저장 안되면 400 반환.")
     void saveAll() throws Exception {

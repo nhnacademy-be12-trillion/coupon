@@ -67,7 +67,7 @@ class CouponControllerTest {
         // Mock 데이터 설정 (서비스 응답 정의)
         given(couponService.getDiscountValue(anyLong(), anyList()))
                 .willReturn(new Price(5000L)); // 예상 할인 금액
-
+        given(couponService.getCoupon(couponId,memberId)).willReturn(new Coupon(1L,"qwe",1L,1L, LocalDateTime.now(),LocalDateTime.now().plusDays(1L)));
         // when & then
         mockMvc.perform(MockMvcRequestBuilders.get("/coupons/{coupon-id}", couponId)
                         .param("bookIds", "10", "20")

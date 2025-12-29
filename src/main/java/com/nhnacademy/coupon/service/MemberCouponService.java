@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberCouponService {
     private final MemberCouponJpaRepository repository;
     private final CouponJpaRepository couponJpaRepository;
+    @Transactional(readOnly = true)
     public Collection<MemberCoupon> findAll(Long memberId, Pageable pageable) {
         return repository.findAllByMemberId(memberId,pageable)
                 .stream()
