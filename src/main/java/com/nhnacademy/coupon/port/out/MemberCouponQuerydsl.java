@@ -21,6 +21,7 @@ public class MemberCouponQuerydsl {
                         QCouponJpaEntity.couponJpaEntity.quantity,
                         QCouponJpaEntity.couponJpaEntity.issueStartDate,
                         QCouponJpaEntity.couponJpaEntity.issueEndDate,
+                        QCouponPolicyJpaEntity.couponPolicyJpaEntity.discountValue,
                         QCouponPolicyJpaEntity.couponPolicyJpaEntity.minOrderPrice,
                         QCouponPolicyJpaEntity.couponPolicyJpaEntity.maxDiscountPrice,
                         QCouponPolicyJpaEntity.couponPolicyJpaEntity.discountType
