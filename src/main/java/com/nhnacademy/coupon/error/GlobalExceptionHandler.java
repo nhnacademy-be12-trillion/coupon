@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     private final MessageSource messageSource;
     @ExceptionHandler(CustomException.class)
     ResponseEntity<CustomErrorResponse> handleCustomException(CustomException e, HttpServletRequest request) {
-        log.warn(e.getMessage());
+        log.info(e.getMessage());
         Locale locale = RequestContextUtils.getLocale(request);
 
         String message = messageSource.getMessage(e.getMessage(), e.getArgs(), locale);

@@ -29,11 +29,11 @@ class CouponDiscountTypeTest {
     @Test
     @DisplayName("할인율 금액할인은 할인율이 적용된다.")
     void test1(){
-        Assertions.assertThat(CouponDiscountType.RATE.getDiscountAmount(0.1D,new Price(100L)).value()).isEqualTo(10L);
+        Assertions.assertThat(CouponDiscountType.RATE.getDiscountAmount(10D,new Price(100L)).value()).isEqualTo(10L);
     }
     @ParameterizedTest
-    @ValueSource(doubles = {0,1})
-    @DisplayName("할인율 금액할인은 0보다 크고,1 보다 작지않으면 예외를 발생한다.")
+    @ValueSource(doubles = {Integer.MIN_VALUE,-1,0,0.99})
+    @DisplayName("할인율 금액할인은 1 보다 작으면 예외를 발생한다.")
     void test1(double value){
         Assertions.assertThatThrownBy(()-> CouponDiscountType.RATE.getDiscountAmount(value,new Price(100L))).isInstanceOf(CustomException.class);
     }

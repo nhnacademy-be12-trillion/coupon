@@ -12,9 +12,9 @@ public enum CouponDiscountType {
         return discount.longValue();
     }),
     RATE((discount,price)->{
-        if(0>=discount||discount>=1)
+        if(100<=discount||discount<1)
             throw new CustomException("error.message.notRate",new Object[]{discount});
-        return (long)(price*discount);
+        return (long)(price* discount/100);
     });
     private ToLongBiFunction<Double,Long> function;
     CouponDiscountType(ToLongBiFunction<Double,Long> function) {
