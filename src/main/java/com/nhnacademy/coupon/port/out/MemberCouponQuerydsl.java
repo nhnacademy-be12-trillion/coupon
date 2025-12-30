@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MemberCouponQuerydsl {
     private final JPAQueryFactory jpaQueryFactory;
-    public List<MemberCouponResponse> getCoupons(Long memberId, Pageable pageable) {
+    public List<MemberCouponResponse> getCoupons(boolean isUse,Long memberId, Pageable pageable) {
         return jpaQueryFactory
                 .select(Projections.constructor(
                         MemberCouponResponse.class,
@@ -33,7 +33,7 @@ public class MemberCouponQuerydsl {
                 .on(QCouponJpaEntity.couponJpaEntity.policyId.eq(QCouponPolicyJpaEntity.couponPolicyJpaEntity.id))
                 .where(
                         QMemberCouponJpaEntity.memberCouponJpaEntity.memberId.eq(memberId)
-                                .and(QMemberCouponJpaEntity.memberCouponJpaEntity.isUse.isFalse())
+                                .and(QMemberCouponJpaEntity.memberCouponJpaEntity.isUse.eq(isUse))
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
