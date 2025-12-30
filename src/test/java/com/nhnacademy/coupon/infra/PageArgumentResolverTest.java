@@ -44,8 +44,8 @@ class PageArgumentResolverTest {
     @DisplayName("요청 파라미터가 있을 때 올바른 PageRequest 객체를 생성한다")
     void resolveArgumentWithParams() throws Exception {
         // given
-        when(httpServletRequest.getParameter("pageNumber")).thenReturn("2");
-        when(httpServletRequest.getParameter("pageSize")).thenReturn("20");
+        when(httpServletRequest.getParameter("page")).thenReturn("2");
+        when(httpServletRequest.getParameter("size")).thenReturn("20");
 
         // when
         PageRequest result = (PageRequest) resolver.resolveArgument(null, null, webRequest, null);
@@ -60,8 +60,8 @@ class PageArgumentResolverTest {
     @DisplayName("요청 파라미터가 없을 때 기본값(0, 10)을 반환한다")
     void resolveArgumentWithDefault() throws Exception {
         // given
-        when(httpServletRequest.getParameter("pageNumber")).thenReturn(null);
-        when(httpServletRequest.getParameter("pageSize")).thenReturn(null);
+        when(httpServletRequest.getParameter("page")).thenReturn(null);
+        when(httpServletRequest.getParameter("size")).thenReturn(null);
 
         // when
         PageRequest result = (PageRequest) resolver.resolveArgument(null, null, webRequest, null);
