@@ -12,7 +12,7 @@ public enum CouponDiscountType {
         return discount.longValue();
     }),
     RATE((discount,price)->{
-        if(100<=discount||discount<1)
+        if(100<=discount||discount<1||discount!=Math.ceil(discount))
             throw new CustomException("error.message.notRate",new Object[]{discount});
         return (long)(price* discount/100);
     });
