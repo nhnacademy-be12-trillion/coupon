@@ -17,4 +17,5 @@ public interface MemberCouponJpaRepository extends JpaRepository<MemberCouponJpa
     @Query("select count(*) from MemberCouponJpaEntity  m where m.couponId=:couponId and m.isUse=true")
     Long findByUsingCouponIdWithLock(Long couponId);
 
+    List<MemberCouponJpaEntity> findAllByMemberIdAndIsUse(Long memberId, boolean isUse);
 }

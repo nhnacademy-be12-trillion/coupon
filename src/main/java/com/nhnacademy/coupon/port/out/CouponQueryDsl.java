@@ -26,4 +26,14 @@ public class CouponQueryDsl {
                 .limit(pageable.getPageSize())
                 .fetch();
     }
+    public List<CouponJpaEntity> findCouponBook(Long bookId, Set<Long> categoryIds) {
+        return jpaQueryFactory.selectFrom(
+                        QCouponJpaEntity.couponJpaEntity
+                )
+                .where(
+                        QCouponJpaEntity.couponJpaEntity.bookId.eq(bookId)
+                                .or(QCouponJpaEntity.couponJpaEntity.categoryId.in(categoryIds))
+                )
+                .fetch();
+    }
 }

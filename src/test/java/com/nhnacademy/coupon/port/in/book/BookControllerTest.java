@@ -4,9 +4,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.service.BookCouponService;
 import java.time.LocalDateTime;
@@ -28,6 +30,8 @@ class BookControllerTest {
 
     @MockitoBean
     private BookCouponService couponService;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @DisplayName("도서 ID로 쿠폰 목록 조회 성공")
@@ -49,5 +53,20 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(1));
+    }
+    @Test
+    @DisplayName("쿠폰 발급 요청 성공 - 200 OK")
+    void saveCoupon_rollback_test() throws Exception {
+        Long bookId = 123L;
+        BookCouponIssueRequest request = new BookCouponIssueRequest(bookId);
+
+        String jsonRequest = objectMapper.writeValueAsString(request);
+
+        // when & then
+        mockMvc.perform(post("/book-coupons") // 매핑된 URL
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest)
+                        .header("X-Member-Id", "1"))
+                .andExpect(status().isOk());
     }
 }

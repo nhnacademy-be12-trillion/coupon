@@ -7,6 +7,7 @@ import com.nhnacademy.coupon.domain.coupon.Book;
 import com.nhnacademy.coupon.domain.coupon.Coupon;
 import com.nhnacademy.coupon.port.in.admin.coupon.maker.RequestMakerComposite;
 import com.nhnacademy.coupon.port.out.CouponQueryDsl;
+import com.nhnacademy.coupon.port.out.MemberCouponJpaRepository;
 import com.nhnacademy.coupon.port.out.coupon.CouponJpaEntity;
 import com.nhnacademy.coupon.service.maker.MakerComposite;
 import com.nhnacademy.coupon.service.maker.MakerCompositeConfig;
@@ -36,10 +37,12 @@ class BookCouponServiceTest {
     private CouponQueryDsl couponQUeryDsl;
     @Mock
     private CheckCouponService checkCouponService;
+    @Mock
+    private MemberCouponJpaRepository couponJpaRepository;
 
     @BeforeEach
     void setUp() {
-        bookCouponService= new BookCouponService(makerComposite, couponQUeryDsl, checkCouponService);
+        bookCouponService= new BookCouponService(makerComposite, couponQUeryDsl, checkCouponService,couponJpaRepository);
     }
 
     @Test
