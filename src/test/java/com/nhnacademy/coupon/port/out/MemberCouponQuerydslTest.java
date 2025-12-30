@@ -41,7 +41,7 @@ class MemberCouponQuerydslTest {
     @Test
     @DisplayName("비어있음")
     void findAll() {
-        Assertions.assertThat(couponQueryDsl.getCoupons(1L, PageRequest
+        Assertions.assertThat(couponQueryDsl.getCoupons(false,1L, PageRequest
                 .of(1,10))).isEmpty();
     }
     @Test
@@ -57,7 +57,7 @@ class MemberCouponQuerydslTest {
         memberCouponJpaRepository.save(new MemberCouponJpaEntity(1L,1L));
 
 
-        Assertions.assertThat(couponQueryDsl.getCoupons(1L, PageRequest
+        Assertions.assertThat(couponQueryDsl.getCoupons(false,1L, PageRequest
                 .of(0,10))).hasSize(1);
     }
 

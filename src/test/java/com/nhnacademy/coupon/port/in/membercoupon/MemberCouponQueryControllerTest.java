@@ -1,6 +1,7 @@
 package com.nhnacademy.coupon.port.in.membercoupon;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nhnacademy.coupon.domain.policy.CouponDiscountType;
@@ -30,7 +31,7 @@ class MemberCouponQueryControllerTest {
     @Test
     @DisplayName("아이디가 없으면 빈 리스트가 나온다.")
     void testFindAllByMemberId() throws Exception {
-        Mockito.when(service.getCoupons(any(),any())).thenReturn(List.of());
+        Mockito.when(service.getCoupons(eq(false),any(),any())).thenReturn(List.of());
         mockMvc.perform(MockMvcRequestBuilders.get(PATH)
                         .header(X_MEMBER_ID,1L))
                 .andExpect(status().isOk())
@@ -40,7 +41,7 @@ class MemberCouponQueryControllerTest {
     @Test
     @DisplayName("아이디가 있으면 리스트가 나온다.")
     void testFindAllByMemberId2() throws Exception {
-        Mockito.when(service.getCoupons(any(),any())).thenReturn(List.of(
+        Mockito.when(service.getCoupons(eq(false),any(),any())).thenReturn(List.of(
                 new MemberCouponResponse(1L,"qwe",1L, LocalDateTime.now(), LocalDateTime.now(),null,null,null,
                         CouponDiscountType.FIXED_AMOUNT)
         ));
