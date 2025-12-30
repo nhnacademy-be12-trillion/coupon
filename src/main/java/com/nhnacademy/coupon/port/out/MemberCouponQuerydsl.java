@@ -17,6 +17,7 @@ public class MemberCouponQuerydsl {
                 .select(Projections.constructor(
                         MemberCouponResponse.class,
                         QMemberCouponJpaEntity.memberCouponJpaEntity.id,
+                        QCouponJpaEntity.couponJpaEntity.id,
                         QCouponJpaEntity.couponJpaEntity.name,
                         QCouponJpaEntity.couponJpaEntity.quantity,
                         QCouponJpaEntity.couponJpaEntity.issueStartDate,
