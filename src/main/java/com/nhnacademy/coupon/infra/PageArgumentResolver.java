@@ -26,14 +26,14 @@ public class PageArgumentResolver implements CustomArgumentResolver {
     }
 
     private int getPageNumber(HttpServletRequest request) {
-        String parameter = request.getParameter("pageNumber");
+        String parameter = request.getParameter("page");
         if(parameter == null) {
             return 0;
         }
         return Integer.parseInt(parameter);
     }
     private int getPageSize(HttpServletRequest request) {
-        String parameter = request.getParameter("pageSize");
+        String parameter = request.getParameter("size");
         if(parameter == null) {
             return 10;
         }
