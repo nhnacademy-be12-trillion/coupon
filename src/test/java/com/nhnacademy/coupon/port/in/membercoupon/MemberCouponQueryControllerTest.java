@@ -42,7 +42,7 @@ class MemberCouponQueryControllerTest {
     @DisplayName("아이디가 있으면 리스트가 나온다.")
     void testFindAllByMemberId2() throws Exception {
         Mockito.when(service.getCoupons(eq(false),any(),any())).thenReturn(List.of(
-                new MemberCouponResponse(1L,"qwe",1L, LocalDateTime.now(), LocalDateTime.now(),null,null,null,
+                new MemberCouponResponse(1L,1L,"qwe",1L, LocalDateTime.now(), LocalDateTime.now(),null,null,null,
                         CouponDiscountType.FIXED_AMOUNT)
         ));
         mockMvc.perform(MockMvcRequestBuilders.get(PATH)
