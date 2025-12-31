@@ -1,6 +1,7 @@
 package com.nhnacademy.coupon.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -61,7 +62,7 @@ class BookCouponServiceTest {
     void test1(){
         Coupon coupon = new Coupon(1L, "test", 1L, 1L, LocalDateTime.now(), LocalDateTime.now().plusSeconds(1));
         when(checkCouponService.filterAvailableBook(1L)).thenReturn(new Book(1L,"123",1L,1L,List.of(1L,2L)));
-        when(couponQUeryDsl.findCouponBook(any(),any(),any())).thenReturn(List.of(
+        when(couponQUeryDsl.findCouponBook(any(),anySet(),any())).thenReturn(List.of(
                 new CouponJpaEntity(coupon)
         ));
 

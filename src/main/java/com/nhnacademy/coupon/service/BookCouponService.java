@@ -37,7 +37,7 @@ public class BookCouponService {
                 .map(MemberCouponJpaEntity::getCouponId)
                 .collect(Collectors.toSet());
 
-        couponQueryDsl.findCouponBook(bookId, book.getCategoryIds())
+        couponQueryDsl.findCouponBook(memberId,bookId, book.getCategoryIds())
                 .stream()
                 .map(makerComposite::makeCoupon)
                 .filter(coupon -> coupon.isAvailable(book))
