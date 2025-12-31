@@ -3,6 +3,7 @@ package com.nhnacademy.coupon.port.in.book;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -55,13 +56,28 @@ class BookControllerTest {
                 .andExpect(jsonPath("$.length()").value(1));
     }
     @Test
-    @DisplayName("쿠폰 발급 요청 성공 - 200 OK")
+    @DisplayName("쿠폰 발급 요청 성공 -없으면 204")
     void saveCoupon_rollback_test() throws Exception {
         Long bookId = 123L;
         BookCouponIssueRequest request = new BookCouponIssueRequest(bookId);
 
         String jsonRequest = objectMapper.writeValueAsString(request);
 
+        // when & then
+        mockMvc.perform(post("/book-coupons") // 매핑된 URL
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest)
+                        .header("X-Member-Id", "1"))
+                .andExpect(status().isNoContent());
+    }
+    @Test
+    @DisplayName("쿠폰 발급 요청 성공 -없으면 200")
+    void saveCoupon_rollback_test1() throws Exception {
+        Long bookId = 123L;
+        BookCouponIssueRequest request = new BookCouponIssueRequest(bookId);
+
+        String jsonRequest = objectMapper.writeValueAsString(request);
+        when(couponService.saveCoupon(any(),any())).thenReturn(2L);
         // when & then
         mockMvc.perform(post("/book-coupons") // 매핑된 URL
                         .contentType(MediaType.APPLICATION_JSON)

@@ -6,6 +6,7 @@ import com.nhnacademy.coupon.service.BookCouponService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,8 +25,12 @@ public class BookController {
         return couponService.getCoupons(bookId,pageable);
     }
     @PostMapping()
-    public void saveBookCoupons(@MemberId Long memberId, @RequestBody BookCouponIssueRequest request){
-        couponService.saveCoupon(memberId, request.bookId());
+    public ResponseEntity<Long> saveBookCoupons(@MemberId Long memberId, @RequestBody BookCouponIssueRequest request){
+        long saveCount = couponService.saveCoupon(memberId, request.bookId());
+        if(saveCount == 0){
+            return ResponseEntity.noContent().build();
+        }
+        return  ResponseEntity.ok(saveCount);
     }
 
 }

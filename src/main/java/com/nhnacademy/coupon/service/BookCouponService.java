@@ -30,19 +30,21 @@ public class BookCouponService {
                         .toList();
     }
     @Transactional
-    public void saveCoupon(Long memberId,Long bookId) {
+    public long saveCoupon(Long memberId,Long bookId) {
         Book book = checkCouponService.filterAvailableBook(bookId);
         Set<Long> useCouponIds = memberCouponJpaRepository.findAllByMemberIdAndIsUse(memberId, true)
                 .stream()
                 .map(MemberCouponJpaEntity::getCouponId)
                 .collect(Collectors.toSet());
 
-        couponQueryDsl.findCouponBook(memberId,bookId, book.getCategoryIds())
+        List<Long> noUsedCouponIds = couponQueryDsl.findCouponBook(memberId, bookId, book.getCategoryIds())
                 .stream()
                 .map(makerComposite::makeCoupon)
                 .filter(coupon -> coupon.isAvailable(book))
                 .map(Coupon::getId)
                 .filter(couponId -> !useCouponIds.contains(couponId))
-                .forEach(coupon -> memberCouponJpaRepository.save(new  MemberCouponJpaEntity(memberId, coupon)));
+                .toList();
+                noUsedCouponIds.forEach(coupon -> memberCouponJpaRepository.save(new  MemberCouponJpaEntity(memberId, coupon)));
+        return noUsedCouponIds.size();
     }
 }
